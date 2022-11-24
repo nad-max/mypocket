@@ -1,37 +1,88 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 
-<AnchorPane id="AnchorPane" prefHeight="536.0" prefWidth="781.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/19" fx:controller="ViewController.HomeViewController">
-   <children>
-      <HBox prefHeight="84.0" prefWidth="782.0" style="-fx-background-color: pink;">
+<BorderPane prefHeight="536.0" prefWidth="781.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ViewController.HomeViewController">
+   <top>
+      <HBox alignment="CENTER" style="-fx-background-color: #aaaaaa; -fx-effect: dropshadow(one-pass-box, rgba(0, 0, 0, 0.3), 10, 0.5, 0.0, 0.0);" BorderPane.alignment="CENTER">
          <children>
-            <HBox prefHeight="100.0" prefWidth="200.0">
+            <Label text="Bienvenue, Nada">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Region HBox.hgrow="ALWAYS" />
+            <HBox alignment="CENTER" spacing="8.0">
                <children>
-                  <Label text="NOM" />
-               </children>
-            </HBox>
-            <HBox prefHeight="100.0" prefWidth="200.0">
-               <HBox.margin>
-                  <Insets left="400.0" />
-               </HBox.margin>
-               <children>
-                  <Label text="date" />
-                  <Label alignment="CENTER" contentDisplay="CENTER" text="solde">
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                     <HBox.margin>
-                        <Insets left="80.0" />
-                     </HBox.margin>
+                  <Label text="Jeudi, 24 Novembre 2022" />
+                  <Label text="5000 TND">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
                   </Label>
                </children>
+               <HBox.margin>
+                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+               </HBox.margin>
             </HBox>
          </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <padding>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </padding>
       </HBox>
-   </children>
-</AnchorPane>
+   </top>
+   <center>
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox alignment="CENTER_LEFT" spacing="8.0">
+               <children>
+                  <Label text="Dernière transactions :">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <ListView prefHeight="200.0" prefWidth="200.0" />
+                  <Button mnemonicParsing="false" text="Ajouter une transaction" />
+               </children>
+            </VBox>
+            <Region prefHeight="200.0" prefWidth="200.0" />
+            <VBox alignment="CENTER_LEFT" layoutX="291.0" layoutY="10.0" spacing="8.0">
+               <children>
+                  <Label text="Statistiques :">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <LineChart prefHeight="218.0" prefWidth="288.0">
+                    <xAxis>
+                      <CategoryAxis side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis side="LEFT" />
+                    </yAxis>
+                  </LineChart>
+                  <Button mnemonicParsing="false" text="Créer un budget" />
+               </children>
+            </VBox>
+         </children>
+         <BorderPane.margin>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </BorderPane.margin>
+      </HBox>
+   </center>
+</BorderPane>

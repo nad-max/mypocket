@@ -4,8 +4,8 @@
  */
 package modele.user;
 
+import BD.DBConnection;
 import java.util.ArrayList;
-import java.sql.Date;
 import modele.userdata.Budget;
 import modele.userdata.Transaction;
 
@@ -41,6 +41,11 @@ public class Utilisateur {
         this.budgets = new ArrayList<Budget>();
         this.transactions = new ArrayList<Transaction>();
     }
+
+    public Utilisateur() {
+    }
+
+    
     
     // gettres and settres 
 
@@ -95,12 +100,5 @@ public class Utilisateur {
     @Override
     public String toString() {
         return "Utilisateur{" + "\nnom=" + nom + ", \nnomUser=" + nomUser + ", \npw=" + pw + ", \ndateCrt=" + dateCrt + ", \nsolde=" + solde + ", \nbudgets=" + budgets + ", \ntransactions=" + transactions + '}';
-    }
-    
-    
-    
-    
-     
-    
-    
+    }  
 }

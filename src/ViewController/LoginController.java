@@ -25,13 +25,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import modele.user.Utilisateur;
 
 
 
 /**
  * FXML Controller class
  *
- * @author user
+ * @author nada
  */
 public class LoginController {
 
@@ -74,12 +75,19 @@ public class LoginController {
             ps.setString(2, pass);
             rs=ps.executeQuery();
             if (rs.next()) {
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Message");
-                alert.setHeaderText("succés !");
-                alert.setContentText("login avec succées");
-                alert.show();
-                //aller page acceuil
+//                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+//                alert.setTitle("Message");
+//                alert.setHeaderText("succés !");
+//                alert.setContentText("login avec succées");
+//                alert.show();
+                    System.out.println("succés");
+                    //recuperer user
+                 Utilisateur u = DBConnection.getUser(usern, pass);
+                try {
+                        new Home().start((Stage)btnLogin.getScene().getWindow());
+                    } catch (IOException ex) {
+                    Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 
              }
             else{
@@ -106,6 +114,21 @@ public class LoginController {
         
     }
 
+    private static class Home extends Application {
+
+        public Home() {
+        }
+
+        @Override
+        public void start(Stage primaryStage) throws IOException {
+           Parent root = FXMLLoader.load(getClass().getResource("HomeView.fxml"));
+           Scene scene = new Scene(root);
+            primaryStage.setTitle("Home");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        }
+    }
+    
     private static class SignUp extends Application {
 
         public SignUp() {

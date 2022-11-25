@@ -4,13 +4,13 @@
  */
 package BD;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import modele.user.Utilisateur;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 /**
  *
@@ -45,13 +45,28 @@ public class DBConnection {
              ps.setString(3, user.getNom());
              ps.setString(4, user.getDateCrt());
              ps.executeUpdate();
-             
-             
-             
-             
          }   
             
-            
+         public static Utilisateur getUser(String userN, String pw) throws SQLException{
+        
+                con = DBConnection.getConnexion();
+                //Utilisateur u = new Utilisateur();
+                
+                String req = "select nom, solde from user where nomUser = '"+userN+"' and pw = '"+pw+"'";
+		PreparedStatement ps = con.prepareStatement(req);
+                ResultSet rs = ps.executeQuery();
+                
+                while(rs.next()){
+                    user.setNom(rs.getString(1));
+                    user.setSolde(rs.getDouble(2));
+                    //u.setPw(rs.getString(2));
+                    //u.setNomUser(rs.getString(3));
+                    System.out.println(user.getNom());
+                    System.out.println(user.getSolde());
+                }
+          return user;
+    }
+    public static Utilisateur user = new Utilisateur();     
             
 }
     

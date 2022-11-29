@@ -94,7 +94,7 @@ public class LoginController {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Message");
                 alert.setHeaderText("Erreur !");
-                alert.setContentText("user name or password incorrest !!");
+                alert.setContentText("user name or password incorrect !!");
                 alert.show();
                 txtUser.setText("");
                 txtPW.setText("");

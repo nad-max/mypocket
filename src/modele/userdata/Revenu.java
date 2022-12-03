@@ -4,25 +4,55 @@
  */
 package modele.userdata;
 
+import java.util.Date;
+
 /**
  *
  * @author user
  */
 public final class Revenu extends Transaction {
-    public static enum RevSourceType{SALAIRE, LOYER, AFFAIRE, AUTRE}
-    private RevSourceType sourceType;
+    //public static enum RevSourceType{SALAIRE, LOYER, AFFAIRE, AUTRE}
+    
+    private String sourceType;
+    private int idUser;
     
     
-    public Revenu(int idTransac, double montantTransac,RevSourceType sourceType) {
+    public Revenu(int idTransac, double montantTransac,String sourceType) {
         super(idTransac, montantTransac);
         this.sourceType = sourceType;
     }
 
-    public RevSourceType getSourceType() {
+    public Revenu(String sourceType, String dateTransac, double montantTransac) {
+        super(dateTransac, montantTransac);
+        this.sourceType = sourceType;
+    }
+
+    public Revenu(String dateTransac, double montantTransac) {
+        super(dateTransac, montantTransac);
+    }
+
+    public Revenu() {
+    }
+
+    
+
+    public int getIdUser() {
+        return idUser;
+    }
+
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
+    }
+
+    
+    
+    
+
+    public String getSourceType() {
         return sourceType;
     }
 
-    public void setSourceType(RevSourceType sourceType) {
+    public void setSourceType(String sourceType) {
         this.sourceType = sourceType;
     }
 
@@ -30,6 +60,6 @@ public final class Revenu extends Transaction {
     public String toString() {
         return "Revenu{" 
                 + "idTransac=" + getIdTransac() + ", dateTransac=" + getDateTransac().toString() + ", montantTransac=" + getMontantTransac() +  //données transaction
-                 "sourceType=" + sourceType.name() + "}\n";
+                 "sourceType=" + getSourceType()+ "}\n";
     }   
 }

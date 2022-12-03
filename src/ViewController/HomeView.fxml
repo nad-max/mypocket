@@ -6,7 +6,8 @@
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
@@ -58,11 +59,16 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <ListView prefHeight="200.0" prefWidth="200.0" />
-                  <ComboBox fx:id="choixTransac" promptText="Ajouter une transaction" />
+                  <TableView fx:id="transacTab" onMouseClicked="#Rafraichir" prefHeight="200.0" prefWidth="260.0">
+                    <columns>
+                      <TableColumn fx:id="montantCol" prefWidth="95.20000612735748" text="Montant" />
+                      <TableColumn fx:id="dateCol" prefWidth="164.79998016357422" text="Date" />
+                    </columns>
+                  </TableView>
+                  <ComboBox fx:id="choixTransac" onAction="#choiceTransac" promptText="Ajouter une transaction" />
                </children>
             </VBox>
-            <Region prefHeight="200.0" prefWidth="200.0" />
+            <Region prefHeight="432.0" prefWidth="150.0" />
             <VBox alignment="CENTER_LEFT" layoutX="291.0" layoutY="10.0" spacing="8.0">
                <children>
                   <Label text="Statistiques :">

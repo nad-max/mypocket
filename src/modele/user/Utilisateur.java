@@ -14,6 +14,7 @@ import modele.userdata.Transaction;
  * @author user
  */
 public class Utilisateur {
+    private int idUser;
     private String nom;
     private String nomUser;
     private String pw; //mot de passe
@@ -42,12 +43,31 @@ public class Utilisateur {
         this.transactions = new ArrayList<Transaction>();
     }
 
+    public Utilisateur(int idUser, String nom, String nomUser, String pw, String dateCrt, double solde, ArrayList<Budget> budgets, ArrayList<Transaction> transactions) {
+        this.idUser = idUser;
+        this.nom = nom;
+        this.nomUser = nomUser;
+        this.pw = pw;
+        this.dateCrt = dateCrt;
+        this.solde = solde;
+        this.budgets = budgets;
+        this.transactions = transactions;
+    }
+    
+
     public Utilisateur() {
     }
+    
+    
 
-    
-    
-    // gettres and settres 
+    public int getIdUser() {
+        return idUser;
+    }
+
+    // gettres and settres
+    public void setIdUser(int idUser) {
+        this.idUser = idUser;
+    }
 
     public String getNom() {
         return nom;

@@ -61,15 +61,15 @@ public class SignUpViewController {
                 alert.setContentText("Veuillez svp remplir les champs !");
                 alert.show();
         }
-       else{
-           Connection conn= DBConnection.getConnexion();
-            PreparedStatement ps;
-            ResultSet rs;
+       else{  //ajouter user
+//           Connection conn= DBConnection.getConnexion();
+//            PreparedStatement ps;
+//            ResultSet rs;
 //            String pattern = "yyyy-mm-dd";
 //            String today = new SimpleDateFormat(pattern).format(new Date());
 //            System.out.println("Today is .......  " + today);
           //String mydate = java.text.DateFormat.getDateTimeInstance().format(Calendar.getInstance().getTime());
-            SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy :: HH:mm:ss");
+            SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
             Date d = new Date();
             Utilisateur user = new Utilisateur(nom,email,pass, date.format(d));
             DBConnection.addUser(user);

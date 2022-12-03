@@ -83,7 +83,7 @@ public class LoginController {
                     System.out.println("succés");
                     //recuperer user
                  Utilisateur u = DBConnection.getUser(usern, pass);
-                try {
+                try {   // go to home page
                         new Home().start((Stage)btnLogin.getScene().getWindow());
                     } catch (IOException ex) {
                     Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);

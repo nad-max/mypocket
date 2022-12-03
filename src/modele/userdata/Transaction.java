@@ -12,13 +12,23 @@ import java.util.Date;
  */
 public abstract sealed class Transaction permits Depense, Revenu {
     private int idTransac;
-    private Date dateTransac;
+    private String dateTransac;
     private double montantTransac;
+
+    public Transaction() {
+    }
+    
+    
 
     public Transaction(int idTransac, double montantTransac) {
         this.idTransac = idTransac;
         this.montantTransac = montantTransac;
-        this.dateTransac = new Date();
+        
+    }
+
+    public Transaction(String dateTransac, double montantTransac) {
+        this.dateTransac = dateTransac;
+        this.montantTransac = montantTransac;
     }
    
     
@@ -39,11 +49,11 @@ public abstract sealed class Transaction permits Depense, Revenu {
         this.idTransac = idTransac;
     }
 
-    public Date getDateTransac() {
+    public String getDateTransac() {
         return dateTransac;
     }
 
-    public void setDateTransac(Date dateTransac) {
+    public void setDateTransac(String dateTransac) {
         this.dateTransac = dateTransac;
     }
 

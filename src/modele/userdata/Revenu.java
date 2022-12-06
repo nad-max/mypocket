@@ -15,25 +15,45 @@ public final class Revenu extends Transaction {
     
     private String sourceType;
     private int idUser;
+    private String  type;
+    
+    
     
     
     public Revenu(int idTransac, double montantTransac,String sourceType) {
         super(idTransac, montantTransac);
+        this.type = "+";
         this.sourceType = sourceType;
+        
     }
-
+     
     public Revenu(String sourceType, String dateTransac, double montantTransac) {
         super(dateTransac, montantTransac);
+        this.type = "+";
         this.sourceType = sourceType;
     }
 
+    public String getType() {
+        return type;
+    }
+    
+    
+    
+    
     public Revenu(String dateTransac, double montantTransac) {
         super(dateTransac, montantTransac);
+        this.type = "+";
+        
     }
+
+
+    
 
     public Revenu() {
+        this.type = "+";
     }
 
+   
     
 
     public int getIdUser() {

@@ -55,51 +55,73 @@ public class HomeViewController implements Initializable {
     @FXML
     private Label txtUser;
     
-     @FXML
+    @FXML
     private TableColumn<Revenu, String> dateCol;
 
     @FXML
     private TableColumn<Revenu, Double> montantCol;
-
+    
+    @FXML
+    private TableColumn<Revenu,String> colType; 
+    
     @FXML
     private TableView<Revenu> transacTab;
     
     @FXML
     private Hyperlink logoutBtn;
-    
-    
-    
-    
-    
-    
-    
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
          choixTransac.getItems().addAll("Revenu","Dépense");
-        
+    
+          //afficher les transactions dans tableView
         try {
-            //afficher les transactions
             ObservableList<Revenu> list = DBConnection.getMontDate_rev();
             montantCol.setCellValueFactory(new PropertyValueFactory<Revenu,Double>("montantTransac"));
             dateCol.setCellValueFactory(new PropertyValueFactory<Revenu,String>("dateTransac"));
+            colType.setCellValueFactory(new PropertyValueFactory<Revenu,String>("type"));
             transacTab.setItems(list);
+            //same for depense
                     
         } catch (SQLException ex) {
             Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
-         
         
-//        try {
-//            //solde
-//            DBConnection.setSoldeUser();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-        
-        
-        
+        // comboBox
+         EventHandler<ActionEvent> eventTransac = (ActionEvent e) -> {    
+             if (choixTransac.getValue().equals("Revenu")) {
+                 try {
+                     //TODO:Ouvrir l'interface Revenu View
+                      Stage primaryStage = new Stage();
+                      Parent root = FXMLLoader.load(getClass().getResource("RevenuView.fxml"));
+                      Scene scene = new Scene(root);
+                      primaryStage.setTitle("Revenu");
+                      primaryStage.setScene(scene);
+                      primaryStage.show();
+                     //new HomeViewController.RevenuPage().start((Stage)choixTransac.getScene().getWindow());
+                 } catch (IOException ex) {
+                     Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+                 
+             }else if(choixTransac.getValue().equals("Dépense")){
+                 //TODO:Ouvrir l'interface Depense View
+                 try {
+                      Stage primaryStage = new Stage();
+                      Parent root = FXMLLoader.load(getClass().getResource("DepenseView.fxml"));
+                      Scene scene = new Scene(root);
+                      primaryStage.setTitle("Depense");
+                      primaryStage.setScene(scene);
+                      primaryStage.show();
+                 } catch (IOException ex) {
+                     Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+             }
+             System.out.println(choixTransac.getValue() + " selected");
+         };
+          //affecter le event
+         choixTransac.setOnAction(eventTransac);
+                
          //TODO: faire de meme pour choixBudg (eventHandler et setOnAction)
          choixBudg.getItems().addAll("Génerer un budget","Créer manuellement");
          
@@ -125,79 +147,36 @@ public class HomeViewController implements Initializable {
             ObservableList<Revenu> list = DBConnection.getMontDate_rev();
             montantCol.setCellValueFactory(new PropertyValueFactory<Revenu,Double>("montantTransac"));
             dateCol.setCellValueFactory(new PropertyValueFactory<Revenu,String>("dateTransac"));
-            transacTab.setItems(list);
-            
-            
-                    
+            transacTab.setItems(list); 
+            //set solde
+            txtSolde.setText(""+DBConnection.user.getSolde()+" TND");
+            //System.out.println("home wiew test "+DBConnection.user.getSolde());
         } catch (SQLException ex) {
             Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-    //Cette fonction ne doit pas contenir le event handler
-    @FXML
-    void choiceTransac(ActionEvent event) {
-        
-        //Event handler pour la redirection vers les pages des transactions
-         //EventHandler<ActionEvent> eventTransac = (ActionEvent e) -> {
-         System.out.println("Choice box transac clicked!");
-         EventHandler<ActionEvent> eventTransac = (ActionEvent e) -> {    
-             if (choixTransac.getValue().equals("Revenu")) {
-                 try {
-                     //TODO:Ouvrir l'interface Revenu View
-                      Stage primaryStage = new Stage();
-                      Parent root = FXMLLoader.load(getClass().getResource("RevenuView.fxml"));
-                      Scene scene = new Scene(root);
-                      primaryStage.setTitle("Revenu");
-                      primaryStage.setScene(scene);
-                      primaryStage.show();
-                     //new HomeViewController.RevenuPage().start((Stage)choixTransac.getScene().getWindow());
-                 } catch (IOException ex) {
-                     Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
-                 }
-                 
-             }else if(choixTransac.getValue().equals("Dépense")){
-                 //TODO:Ouvrir l'interface Depense View
-                 try {
-                     //TODO:Ouvrir l'interface Revenu View
-                      Stage primaryStage = new Stage();
-                      Parent root = FXMLLoader.load(getClass().getResource("DepenseView.fxml"));
-                      Scene scene = new Scene(root);
-                      primaryStage.setTitle("Depense");
-                      primaryStage.setScene(scene);
-                      primaryStage.show();
-                 } catch (IOException ex) {
-                     Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
-                 }
-             }
-             System.out.println(choixTransac.getValue() + " selected");
-         };
-          //affecter le event
-         choixTransac.setOnAction(eventTransac);
         
         
     }
+    // click sur deconnexion
+     @FXML
+    void logout(ActionEvent event) throws IOException {
+          new HomeViewController.LoginPage().start((Stage)logoutBtn.getScene().getWindow());
+    }
     
+     private static class LoginPage extends Application {
+
+        @Override
+        public void start(Stage primaryStage) throws IOException {
+            Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+            Scene scene = new Scene(root);
+            primaryStage.setTitle("Login");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+            
+        }
+
+    }
     
-    
-    
-    
-    
-    
-    
-//     private static class RevenuPage extends Application {
-//
-//        @Override
-//        public void start(Stage primaryStage) throws IOException {
-//            Parent root = FXMLLoader.load(getClass().getResource("RevenuView.fxml"));
-//            Scene scene = new Scene(root);
-//            primaryStage.setTitle("Revenu");
-//            primaryStage.setScene(scene);
-//            primaryStage.show();
-//            
-//        }
-//
-//    
-//    }
 }
 
 

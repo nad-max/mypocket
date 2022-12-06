@@ -80,20 +80,28 @@ public class DBConnection {
      //ajouter revenu 
          public static void addRevenu(Revenu r) throws SQLException{
              Connection conn= DBConnection.getConnexion();
-             PreparedStatement ps = conn.prepareStatement("insert into revenu(sourceType,dateTransac,montantTransac,idUser) values (?,?,?,?)");
+             
+             PreparedStatement ps = conn.prepareStatement("insert into revenu(sourceType,dateTransac,montantTransac,idUser,type) values (?,?,?,?,?)");
              ps.setString(1, r.getSourceType());
              ps.setString(2, r.getDateTransac());
              ps.setDouble(3, r.getMontantTransac());
              ps.setInt(4, user.getIdUser());
+             ps.setString(5, r.getType());
              ps.executeUpdate();
-            
+             
+             PreparedStatement ps1 = conn.prepareStatement("update  user set solde = ? where idUser='"+user.getIdUser()+"'");
+             ps1.setDouble(1, user.getSolde()+r.getMontantTransac());
+             //System.out.println("ajouter revenu solde "+ user.getSolde()+ r.getMontantTransac());
+             user.setSolde(user.getSolde()+r.getMontantTransac());
+             //System.out.println("ajouter revenu solde "+ user.getSolde());
+             ps1.executeUpdate();
          }
          //recuperer date et montant de revenu par utilisateur
      public static ObservableList<Revenu> getMontDate_rev() throws SQLException{
          ObservableList<Revenu> listRevenu =FXCollections.observableArrayList();
          Connection conn= DBConnection.getConnexion();
         
-         String req = "select dateTransac, montantTransac  from revenu where idUser = '"+user.getIdUser()+"'";
+         String req = "select dateTransac, montantTransac, type from revenu where idUser = '"+user.getIdUser()+"'";
 	 PreparedStatement ps;
          
 	 ResultSet rs;

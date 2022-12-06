@@ -30,7 +30,6 @@
                <font>
                   <Font name="Open Sans Semibold" size="12.0" />
                </font></JFXButton>
-            <Hyperlink fx:id="passOublie" text="Mot de passe oublié ?" textFill="#555555" />
             <Hyperlink fx:id="nvComte" onAction="#nvCompte" text="Créer un nouveau compte" textFill="#4285f4">
                <font>
                   <Font name="System Bold" size="12.0" />

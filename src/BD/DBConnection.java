@@ -42,7 +42,7 @@ public class DBConnection {
             
          public static void addUser(Utilisateur user) throws SQLException{
              Connection conn= DBConnection.getConnexion();
-             PreparedStatement ps = conn.prepareStatement("insert into user values (?,?,?,?)");
+             PreparedStatement ps = conn.prepareStatement("insert into user(nomUser, pw, nom, dateCrt) values (?,?,?,?)");
              ps.setString(1, user.getNomUser());
              ps.setString(2, user.getPw());
              ps.setString(3, user.getNom());

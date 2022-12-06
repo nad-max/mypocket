@@ -1,39 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/19" fx:controller="ViewController.SignUpViewController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="700.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ViewController.SignUpViewController">
    <children>
-      <VBox layoutX="193.0" layoutY="29.0" prefHeight="342.0" prefWidth="214.0" spacing="18.0">
+      <VBox alignment="CENTER" layoutX="200.0" layoutY="25.0" prefHeight="342.0" prefWidth="300.0" spacing="25.0" style="-fx-background-color: #4285F4; -fx-effect: dropshadow(one-pass-box, rgba(0, 0, 0, 0.2), 10, 0.5, 0.0, 0.0);">
          <children>
-            <Label text="Join myPocket">
+            <Label text="Join myPocket" textFill="WHITE">
                <VBox.margin>
-                  <Insets left="50.0" />
+                  <Insets />
                </VBox.margin>
                <font>
-                  <Font name="System Bold" size="17.0" />
+                  <Font name="Open Sans Bold" size="18.0" />
                </font>
             </Label>
-            <Label text="Nom" />
-            <TextField fx:id="txtNom" promptText="Votre Nom" />
-            <Label text="Nom d'utilisateur" />
-            <TextField fx:id="txtmail" promptText="Votre email" />
-            <Label text="Mot de passe" />
-            <PasswordField fx:id="txtPas" promptText="votre mot de passe" />
-            <Button fx:id="btnSignUp" mnemonicParsing="false" onAction="#ajouterUser" text="Sign Up">
+            <JFXTextField fx:id="txtNom" focusColor="#275cb1" promptText="Veuillez saisir votre nom" style="-fx-prompt-text-fill: #FFFFFFAA; -fx-text-fill: #FFFFFF;" unFocusColor="WHITE">
+               <font>
+                  <Font name="Open Sans" size="12.0" />
+               </font>
+            </JFXTextField>
+            <JFXTextField fx:id="txtmail" promptText="Veuillez saisir votre email" style="-fx-prompt-text-fill: #FFFFFFAA; -fx-text-fill: #FFFFFF;" unFocusColor="WHITE" />
+            <JFXPasswordField fx:id="txtPas" focusColor="#275cb1" promptText="Veuillez saisir votre mot de passe" style="-fx-prompt-text-fill: #FFFFFFAA; -fx-text-fill: #FFFFFF;" unFocusColor="WHITE" />
+            <JFXButton fx:id="btnSignUp" onAction="#ajouterUser" ripplerFill="#535353" style="-fx-background-color: #FFFFFF;" text="S'inscrire" textFill="#4285f4">
+               <font>
+                  <Font name="Open Sans Semibold" size="14.0" />
+               </font>
                <VBox.margin>
-                  <Insets left="80.0" />
+                  <Insets top="20.0" />
                </VBox.margin>
-            </Button>
+            </JFXButton>
          </children>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
       </VBox>
    </children>
 </AnchorPane>

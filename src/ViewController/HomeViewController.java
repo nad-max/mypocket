@@ -24,6 +24,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -63,6 +64,9 @@ public class HomeViewController implements Initializable {
     @FXML
     private TableView<Revenu> transacTab;
     
+    @FXML
+    private Hyperlink logoutBtn;
+    
     
     
     
@@ -96,7 +100,7 @@ public class HomeViewController implements Initializable {
         
         
         
-         //TODO: faire de meme pour choixBudg (eventHandler et setOnAction
+         //TODO: faire de meme pour choixBudg (eventHandler et setOnAction)
          choixBudg.getItems().addAll("Génerer un budget","Créer manuellement");
          
          
@@ -129,12 +133,13 @@ public class HomeViewController implements Initializable {
             Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+    //Cette fonction ne doit pas contenir le event handler
     @FXML
     void choiceTransac(ActionEvent event) {
         
         //Event handler pour la redirection vers les pages des transactions
          //EventHandler<ActionEvent> eventTransac = (ActionEvent e) -> {
+         System.out.println("Choice box transac clicked!");
          EventHandler<ActionEvent> eventTransac = (ActionEvent e) -> {    
              if (choixTransac.getValue().equals("Revenu")) {
                  try {
@@ -152,6 +157,17 @@ public class HomeViewController implements Initializable {
                  
              }else if(choixTransac.getValue().equals("Dépense")){
                  //TODO:Ouvrir l'interface Depense View
+                 try {
+                     //TODO:Ouvrir l'interface Revenu View
+                      Stage primaryStage = new Stage();
+                      Parent root = FXMLLoader.load(getClass().getResource("DepenseView.fxml"));
+                      Scene scene = new Scene(root);
+                      primaryStage.setTitle("Depense");
+                      primaryStage.setScene(scene);
+                      primaryStage.show();
+                 } catch (IOException ex) {
+                     Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
+                 }
              }
              System.out.println(choixTransac.getValue() + " selected");
          };

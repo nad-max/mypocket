@@ -8,6 +8,7 @@ import BD.DBConnection;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -32,6 +33,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import modele.userdata.Revenu;
+import modele.userdata.Transaction;
 
 /**
  * FXML Controller class
@@ -56,16 +58,16 @@ public class HomeViewController implements Initializable {
     private Label txtUser;
     
     @FXML
-    private TableColumn<Revenu, String> dateCol;
+    private TableColumn<Transaction, Date> dateCol;
 
     @FXML
-    private TableColumn<Revenu, Double> montantCol;
+    private TableColumn<Transaction, Double> montantCol;
     
     @FXML
-    private TableColumn<Revenu,String> colType; 
+    private TableColumn<Transaction,String> colType; 
     
     @FXML
-    private TableView<Revenu> transacTab;
+    private TableView<Transaction> transacTab;
     
     @FXML
     private Hyperlink logoutBtn;
@@ -77,14 +79,16 @@ public class HomeViewController implements Initializable {
     
           //afficher les transactions dans tableView
         try {
-            ObservableList<Revenu> list = DBConnection.getMontDate_rev();
-            montantCol.setCellValueFactory(new PropertyValueFactory<Revenu,Double>("montantTransac"));
-            dateCol.setCellValueFactory(new PropertyValueFactory<Revenu,String>("dateTransac"));
-            colType.setCellValueFactory(new PropertyValueFactory<Revenu,String>("type"));
+            ObservableList<Transaction> list = DBConnection.getMontDate_transac();
+            montantCol.setCellValueFactory(new PropertyValueFactory<Transaction,Double>("montantTransac"));
+            dateCol.setCellValueFactory(new PropertyValueFactory<Transaction,Date>("dateTransac"));
+            //colType.setCellValueFactory(new PropertyValueFactory<Transaction,String>("type"));
             transacTab.setItems(list);
             //same for depense
                     
         } catch (SQLException ex) {
+            Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
             Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -99,6 +103,7 @@ public class HomeViewController implements Initializable {
                       primaryStage.setTitle("Revenu");
                       primaryStage.setScene(scene);
                       primaryStage.show();
+                      
                      //new HomeViewController.RevenuPage().start((Stage)choixTransac.getScene().getWindow());
                  } catch (IOException ex) {
                      Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
@@ -141,16 +146,19 @@ public class HomeViewController implements Initializable {
     }
     //click sur table des transactions
     @FXML
-    void Rafraichir(MouseEvent event){
+    void Rafraichir(MouseEvent event) throws ParseException{
         try {
             //afficher les transactions
-            ObservableList<Revenu> list = DBConnection.getMontDate_rev();
-            montantCol.setCellValueFactory(new PropertyValueFactory<Revenu,Double>("montantTransac"));
-            dateCol.setCellValueFactory(new PropertyValueFactory<Revenu,String>("dateTransac"));
+            ObservableList<Transaction> list = DBConnection.getMontDate_transac();
+            montantCol.setCellValueFactory(new PropertyValueFactory<Transaction,Double>("montantTransac"));
+            dateCol.setCellValueFactory(new PropertyValueFactory<Transaction,Date>("dateTransac"));
             transacTab.setItems(list); 
             //set solde
             txtSolde.setText(""+DBConnection.user.getSolde()+" TND");
             //System.out.println("home wiew test "+DBConnection.user.getSolde());
+            
+            //Raffraichir le combobox des transac
+            choixTransac.setValue("Ajouter une transaction");
         } catch (SQLException ex) {
             Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
         }

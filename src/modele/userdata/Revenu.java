@@ -27,7 +27,7 @@ public final class Revenu extends Transaction {
         
     }
      
-    public Revenu(String sourceType, String dateTransac, double montantTransac) {
+    public Revenu(String sourceType, Date dateTransac, double montantTransac) {
         super(dateTransac, montantTransac);
         this.type = "+";
         this.sourceType = sourceType;
@@ -40,7 +40,7 @@ public final class Revenu extends Transaction {
     
     
     
-    public Revenu(String dateTransac, double montantTransac) {
+    public Revenu(Date dateTransac, double montantTransac) {
         super(dateTransac, montantTransac);
         this.type = "+";
         

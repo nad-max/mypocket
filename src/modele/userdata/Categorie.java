@@ -28,7 +28,9 @@ public class Categorie {
         this.libCat = libCat;
         sousCat = new ArrayList<SousCategorie>();
     }
-    
+    public Categorie(String libCat) {
+        this.libCat = libCat;
+    }
     //getters and settres 
 
     public int getIdCat() {

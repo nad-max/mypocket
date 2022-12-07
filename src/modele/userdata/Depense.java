@@ -4,6 +4,8 @@
  */
 package modele.userdata;
 
+import java.util.Date;
+
 /**
  *
  * @author user
@@ -16,6 +18,16 @@ public final class Depense extends Transaction{
         super(idTransac, - montantTransac); // signe (-) pour signaler que c'est une depense
         this.categorie = categorie;
         this.sousCat = sousCat;
+    }
+    public Depense(double montantTransac,Date dateTransac, Categorie categorie, SousCategorie sousCat) {
+        super( dateTransac,- montantTransac); // signe (-) pour signaler que c'est une depense
+        this.categorie = categorie;
+        this.sousCat = sousCat;
+    }
+    public Depense(double montantTransac,Date dateTransac, String categorie, String sousCat) {
+        super( dateTransac,- montantTransac); // signe (-) pour signaler que c'est une depense
+        this.categorie = new Categorie(categorie);
+        this.sousCat = new SousCategorie(sousCat);
     }
 
     public Categorie getCategorie() {

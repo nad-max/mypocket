@@ -18,6 +18,10 @@ public class SousCategorie {
         this.libSousCat = libSousCat;
     }
     
+    public SousCategorie(String libSousCat) {
+        this.libSousCat = libSousCat;
+    }
+    
     //getters and setters
     public int getIdSousCat() {
         return idSousCat;

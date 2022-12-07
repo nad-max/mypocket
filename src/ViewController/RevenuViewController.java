@@ -93,10 +93,9 @@ public class RevenuViewController implements Initializable {
     
     
     private void ajouterRevenu() throws SQLException{
-              SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy :: HH:mm:ss");
               Date d = new Date();
             
-             Revenu r = new Revenu(srcChoice.getValue(), date.format(d), Double.parseDouble(txtMontant.getText()));
+             Revenu r = new Revenu(srcChoice.getValue(), d, Double.parseDouble(txtMontant.getText()));
              DBConnection.addRevenu(r);
              System.out.println("ajout avec succés");
              Stage window = (Stage)btnValider.getScene().getWindow();

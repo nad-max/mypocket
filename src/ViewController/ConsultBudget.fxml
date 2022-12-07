@@ -2,7 +2,6 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXComboBox?>
-<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
@@ -11,37 +10,51 @@
 
 <VBox spacing="10.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label text="Nouveau Budget">
+      <Label text="Mes budget">
          <font>
-            <Font name="System Bold" size="14.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
+      <JFXComboBox promptText="Liste des budgets" />
       <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="5.0">
          <children>
             <Label text="Nom :" />
-            <JFXTextField promptText="Nom significatif" />
+            <Label text="NomDuBudget">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
          </children>
       </HBox>
       <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="5.0">
          <children>
             <Label text="Durée :" />
-            <JFXComboBox fx:id="choixDuree" />
+            <Label text="1 moi/ 1 semaine.." />
          </children>
       </HBox>
-      <Label text="Dépenses à ne pas dépasser :" />
       <HBox alignment="CENTER_LEFT" spacing="5.0">
          <children>
             <Label text="Montant :" />
-            <JFXTextField promptText="Ne pas dépasser" />
-            <Label text="Catégorie" />
-            <JFXComboBox />
-            <Label text="Sous-Catégorie" />
-            <JFXComboBox />
-            <JFXButton style="-fx-background-color: #4285f4CC;" text="+" textFill="WHITE" />
+            <Label text="1000 DT">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
          </children>
       </HBox>
-      <HBox alignment="TOP_RIGHT" prefWidth="200.0">
+      <HBox alignment="CENTER_LEFT" spacing="5.0">
          <children>
+            <Label text="Dépassement :" />
+            <Label text="Oui / Non et quelles Categories">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+         </children>
+      </HBox>
+      <HBox alignment="TOP_RIGHT" prefWidth="200.0" spacing="10.0">
+         <children>
+            <JFXButton style="-fx-background-color: #f42020CC;" text="Supprimer" textFill="WHITE" />
             <JFXButton style="-fx-background-color: #4285f4;" text="Valider" textFill="WHITE" />
          </children>
          <VBox.margin>
@@ -50,6 +63,6 @@
       </HBox>
    </children>
    <padding>
-      <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+      <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
    </padding>
 </VBox>

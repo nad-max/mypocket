@@ -11,10 +11,14 @@ import java.util.logging.Logger;
 import modele.user.Utilisateur;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import modele.userdata.Budget;
+import modele.userdata.Depense;
 import modele.userdata.Revenu;
+import modele.userdata.Transaction;
 
 /**
  *
@@ -80,11 +84,12 @@ public class DBConnection {
          
      //ajouter revenu 
          public static void addRevenu(Revenu r) throws SQLException{
+             SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy :: HH:mm:ss");
              Connection conn= DBConnection.getConnexion();
              
              PreparedStatement ps = conn.prepareStatement("insert into revenu(sourceType,dateTransac,montantTransac,idUser,type) values (?,?,?,?,?)");
              ps.setString(1, r.getSourceType());
-             ps.setString(2, r.getDateTransac());
+             ps.setString(2, date.format(r.getDateTransac()));
              ps.setDouble(3, r.getMontantTransac());
              ps.setInt(4, user.getIdUser());
              ps.setString(5, r.getType());
@@ -97,24 +102,72 @@ public class DBConnection {
              //System.out.println("ajouter revenu solde "+ user.getSolde());
              ps1.executeUpdate();
          }
-         //recuperer date et montant de revenu par utilisateur
-     public static ObservableList<Revenu> getMontDate_rev() throws SQLException{
-         ObservableList<Revenu> listRevenu =FXCollections.observableArrayList();
-         Connection conn= DBConnection.getConnexion();
-        
-         String req = "select dateTransac, montantTransac, type from revenu where idUser = '"+user.getIdUser()+"'";
-	 PreparedStatement ps;
          
-	 ResultSet rs;
-         ps=conn.prepareStatement(req);
-         //ps.setInt(1,user.getIdUser());
- 	 rs=ps.executeQuery(req);
-         while (rs.next()) {
- 	 Revenu p = new Revenu(rs.getString(1), rs.getDouble(2));
- 	 listRevenu.add(p);
+         //ajouter revenu 
+         public static void addDepense(Depense dep) throws SQLException{
+             SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy :: HH:mm:ss");
+             Connection conn= DBConnection.getConnexion();
+             
+             PreparedStatement ps = conn.prepareStatement("""
+                         INSERT into depense(categorie,souscateg,dateTransac,montantTransac,idUser) 
+                         VALUES (?,?,?,?,?)""");
+             ps.setString(1, dep.getCategorie().getLibCat());
+             ps.setString(2, dep.getSousCat().getLibSousCat());
+             ps.setString(3, date.format(dep.getDateTransac()));
+             ps.setDouble(4, -dep.getMontantTransac());
+             ps.setInt(5, user.getIdUser());
+             ps.executeUpdate();
+             
+             PreparedStatement ps1 = conn.prepareStatement("""
+                                                           UPDATE  user 
+                                                           SET solde = ? WHERE idUser='"""+user.getIdUser()+"'");
+             ps1.setDouble(1, user.getSolde()+dep.getMontantTransac());
+             //System.out.println("ajouter revenu solde "+ user.getSolde()+ r.getMontantTransac());
+             user.setSolde(user.getSolde()+dep.getMontantTransac());
+             //System.out.println("ajouter revenu solde "+ user.getSolde());
+             ps1.executeUpdate();
          }
          
-         return listRevenu;
+         //recuperer date et montant de revenu par utilisateur
+     public static ObservableList<Transaction> getMontDate_transac() throws SQLException, ParseException{
+         SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy :: HH:mm:ss");
+         ObservableList<Transaction> listTransac =FXCollections.observableArrayList();
+         Connection conn= DBConnection.getConnexion();
+        
+         String reqRev = """
+                      SELECT dateTransac, montantTransac, type 
+                      FROM revenu 
+                      WHERE idUser = '"""+user.getIdUser()+ "'";
+         
+         String reqDep = """
+                      SELECT montantTransac, dateTransac, categorie, souscateg
+                      FROM depense
+                      WHERE idUser = '"""+user.getIdUser()+ "'";
+	 PreparedStatement ps1;
+         
+	 ResultSet rs1;
+         ps1=conn.prepareStatement(reqRev);
+         //ps.setInt(1,user.getIdUser());
+ 	 rs1=ps1.executeQuery(reqRev);
+         
+         while (rs1.next()) {
+ 	 Transaction rev = new Revenu(date.parse(rs1.getString(1)), rs1.getDouble(2));
+ 	 listTransac.add(rev);
+         }
+         //execution de select des depenses
+         PreparedStatement ps2;
+         
+	 ResultSet rs2;
+         ps2=conn.prepareStatement(reqDep);
+         //ps.setInt(1,user.getIdUser());
+ 	 rs2=ps2.executeQuery(reqDep);
+         while (rs2.next()) {
+ 	 Transaction dep = new Depense(rs2.getDouble(1), date.parse(rs2.getString(2)), rs2.getString(3), rs2.getString(4));
+ 	 listTransac.add(dep);
+         }
+         System.out.print("Affichage de la lite des transac"+listTransac.toString());
+         
+         return listTransac;
      }   
      
      //recuperer somme de revenu d'un user

@@ -67,7 +67,6 @@
                   </Label>
                   <TableView fx:id="transacTab" onMouseClicked="#Rafraichir" prefHeight="200.0" prefWidth="260.0">
                     <columns>
-                        <TableColumn fx:id="colType" prefWidth="23.20001220703125" />
                       <TableColumn fx:id="montantCol" prefWidth="71.199951171875" text="Montant" />
                       <TableColumn fx:id="dateCol" prefWidth="138.40000915527344" text="Date" />
                     </columns>

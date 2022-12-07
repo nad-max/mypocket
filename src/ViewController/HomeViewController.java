@@ -63,8 +63,7 @@ public class HomeViewController implements Initializable {
     @FXML
     private TableColumn<Transaction, Double> montantCol;
     
-    @FXML
-    private TableColumn<Transaction,String> colType; 
+     
     
     @FXML
     private TableView<Transaction> transacTab;

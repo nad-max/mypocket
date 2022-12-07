@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import modele.userdata.Budget;
 import modele.userdata.Revenu;
 
 /**
@@ -138,7 +139,17 @@ public class DBConnection {
 //         //same pour depense ps et update
 //     }
          
+     public static void  addBudget(Budget b) throws SQLException{
          
+         con=DBConnection.getConnexion();
+         PreparedStatement ps = con.prepareStatement("insert into budget(nomBudget,dateCreation,duree,idUser,montantTot ) values (?,?,?,?,?)");
+             ps.setString(1, b.getNomBudget());
+             ps.setString(2, b.getDateCreation());
+             ps.setInt(3, b.getDuree());
+             ps.setInt(4, user.getIdUser());
+             ps.setDouble(5, b.getMontantTot());
+             ps.executeUpdate();
+     }    
       
             
 }

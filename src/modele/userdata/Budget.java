@@ -14,19 +14,28 @@ import java.util.Date;
 public class Budget {
     private int idBudget;
     private String nomBudget;
-    private Date dateD;
-    private Date dateF;
+    private String dateCreation;
+    private int duree;
     private double montantTot;
     private ArrayList<Categorie> categories;
 
    // const
-    public Budget(int idBudget, String nomBudget, Date dateD, Date dateF, double montantTot) {
+    public Budget(int idBudget, String nomBudget, String dateCreation, int duree ,double montantTot) {
         this.idBudget = idBudget;
         this.nomBudget = nomBudget;
-        this.dateD = dateD;
-        this.dateF = dateF;
+        this.dateCreation = dateCreation;
+        this.duree=duree;
         this.montantTot = montantTot;
     }
+
+    public Budget(String nomBudget, String dateCreation, int duree) {
+        this.nomBudget = nomBudget;
+        this.dateCreation = dateCreation;
+        this.duree = duree;
+    }
+    
+    
+    
     
     // gettres and settres 
 
@@ -46,21 +55,25 @@ public class Budget {
         this.nomBudget = nomBudget;
     }
 
-    public Date getDateD() {
-        return dateD;
+    public String getDateCreation() {
+        return dateCreation;
     }
 
-    public void setDateD(Date dateD) {
-        this.dateD = dateD;
+    public void setDateCreation(String dateCreation) {
+        this.dateCreation = dateCreation;
     }
 
-    public Date getDateF() {
-        return dateF;
+    public int getDuree() {
+        return duree;
     }
 
-    public void setDateF(Date dateF) {
-        this.dateF = dateF;
+    public void setDuree(int duree) {
+        this.duree = duree;
     }
+
+   
+
+    
 
     public double getMontantTot() {
         return montantTot;

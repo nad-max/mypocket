@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox spacing="10.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="308.0" prefWidth="441.0" spacing="10.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ViewController.NewBudgetController">
    <children>
       <Label text="Nouveau Budget">
          <font>
@@ -19,7 +19,7 @@
       <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="5.0">
          <children>
             <Label text="Nom :" />
-            <JFXTextField promptText="Nom significatif" />
+            <JFXTextField fx:id="txtNameBudget" promptText="Nom significatif" />
          </children>
       </HBox>
       <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="5.0">
@@ -29,20 +29,17 @@
          </children>
       </HBox>
       <Label text="Dépenses à ne pas dépasser :" />
-      <HBox alignment="CENTER_LEFT" spacing="5.0">
+      <HBox alignment="CENTER_LEFT" prefHeight="34.0" prefWidth="563.0" spacing="7.0">
          <children>
             <Label text="Montant :" />
-            <JFXTextField promptText="Ne pas dépasser" />
-            <Label text="Catégorie" />
-            <JFXComboBox />
-            <Label text="Sous-Catégorie" />
-            <JFXComboBox />
-            <JFXButton style="-fx-background-color: #4285f4CC;" text="+" textFill="WHITE" />
+            <JFXTextField fx:id="txtMontant" promptText="Ne pas dépasser" />
+            <JFXComboBox fx:id="choixCat" promptText="Catégorie" />
+            <JFXButton fx:id="btnPlus" onAction="#plus" style="-fx-background-color: #4285f4CC;" text="+" textFill="WHITE" />
          </children>
       </HBox>
       <HBox alignment="TOP_RIGHT" prefWidth="200.0">
          <children>
-            <JFXButton style="-fx-background-color: #4285f4;" text="Valider" textFill="WHITE" />
+            <JFXButton fx:id="btnValider" onAction="#valider" style="-fx-background-color: #4285f4;" text="Valider" textFill="WHITE" />
          </children>
          <VBox.margin>
             <Insets top="15.0" />

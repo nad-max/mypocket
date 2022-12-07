@@ -124,6 +124,29 @@ public class HomeViewController implements Initializable {
                 
          //TODO: faire de meme pour choixBudg (eventHandler et setOnAction)
          choixBudg.getItems().addAll("Génerer un budget","Créer manuellement");
+          EventHandler<ActionEvent> eventBudget = (ActionEvent e) -> {    
+             if (choixBudg.getValue().equals("Créer manuellement")) {
+                 try {
+                     //TODO:Ouvrir l'interface Revenu View
+                      Stage primaryStage = new Stage();
+                      Parent root = FXMLLoader.load(getClass().getResource("NewBudget.fxml"));
+                      Scene scene = new Scene(root);
+                      primaryStage.setTitle("Nouveau Budget");
+                      primaryStage.setScene(scene);
+                      primaryStage.show();
+                     //new HomeViewController.RevenuPage().start((Stage)choixTransac.getScene().getWindow());
+                 } catch (IOException ex) {
+                     Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+                 
+             }};
+             //affecter le event
+         choixBudg.setOnAction(eventBudget);
+         
+         
+         
+         
+         
          
          
          // top Hbox

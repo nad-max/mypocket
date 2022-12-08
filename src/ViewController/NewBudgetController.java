@@ -113,7 +113,7 @@ public class NewBudgetController implements Initializable {
      @FXML
     void ajouterCatBtn(ActionEvent event) throws SQLException{
         String montant= txtMontant.getText();
-        if( montant.matches(".*[a-zA-Z]+.*") || choixCat.getValue() == null ){
+        if( montant.equals("") || montant.matches(".*[a-zA-Z]+.*") || choixCat.getValue() == null ){
             Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Message");
                 alert.setHeaderText("Erreur !");
@@ -127,7 +127,7 @@ public class NewBudgetController implements Initializable {
                 alertSucc.setContentText("Categorie"+choixCat.getValue().getLibCat()+"ajoutée avec succés");
                 alertSucc.show();
            choixCat.setValue(null);
-           txtMontant.appendText("");
+           txtMontant.clear();
         }
     }
 

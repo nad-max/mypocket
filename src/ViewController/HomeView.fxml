@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="500.0" prefWidth="800.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ViewController.HomeViewController">
+<BorderPane prefHeight="500.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ViewController.HomeViewController">
    <top>
       <HBox alignment="CENTER" spacing="5.0" style="-fx-background-color: #4285F4; -fx-effect: dropshadow(one-pass-box, rgba(0, 0, 0, 0.3), 10, 0.5, 0.0, 0.0);" BorderPane.alignment="CENTER">
          <children>

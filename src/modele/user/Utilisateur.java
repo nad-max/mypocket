@@ -30,6 +30,8 @@ public class Utilisateur {
         this.nomUser = nomUser;
         this.pw = pw;
         this.dateCrt = dateCrt;
+        this.budgets = new ArrayList<Budget>();
+        this.transactions = new ArrayList<Transaction>();
     }
     
 
@@ -44,6 +46,8 @@ public class Utilisateur {
     }
 
     public Utilisateur(int idUser, String nom, String nomUser, String pw, String dateCrt, double solde, ArrayList<Budget> budgets, ArrayList<Transaction> transactions) {
+        this.budgets = new ArrayList<Budget>();
+        this.transactions = new ArrayList<Transaction>();
         this.idUser = idUser;
         this.nom = nom;
         this.nomUser = nomUser;
@@ -56,6 +60,8 @@ public class Utilisateur {
     
 
     public Utilisateur() {
+        this.budgets = new ArrayList<Budget>();
+        this.transactions = new ArrayList<Transaction>();
     }
     
     

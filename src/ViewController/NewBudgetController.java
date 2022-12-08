@@ -18,6 +18,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.layout.VBox;
 import javafx.util.StringConverter;
 import modele.userdata.Budget;
 import modele.userdata.Categorie;
@@ -28,6 +29,12 @@ import modele.userdata.Categorie;
  * @author Omar
  */
 public class NewBudgetController implements Initializable {
+    @FXML
+    private VBox vBoxBas;
+
+    @FXML
+    private VBox vBoxHaut;
+
     
     @FXML
     private JFXButton btnPlus;
@@ -47,7 +54,7 @@ public class NewBudgetController implements Initializable {
     @FXML
     private JFXTextField txtNameBudget;
     
-    
+    private Budget b;
     
 
     /**
@@ -102,20 +109,47 @@ public class NewBudgetController implements Initializable {
         
 
     }
+    
+     @FXML
+    void ajouterCatBtn(ActionEvent event) throws SQLException{
+        String montant= txtMontant.getText();
+        if( montant.matches(".*[a-zA-Z]+.*") || choixCat.getValue() == null ){
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Message");
+                alert.setHeaderText("Erreur !");
+                alert.setContentText("Veuillez verifier les champs !");
+                alert.show();
+        }else{
+            ajouterCat();
+            Alert alertSucc = new Alert(Alert.AlertType.CONFIRMATION);
+                alertSucc.setTitle("Message");
+                alertSucc.setHeaderText("Succés!");
+                alertSucc.setContentText("Categorie"+choixCat.getValue().getLibCat()+"ajoutée avec succés");
+                alertSucc.show();
+           choixCat.setValue(null);
+           txtMontant.appendText("");
+        }
+    }
 
+    private void ajouterCat() throws SQLException{
+        b.setMontantTot(b.getMontantTot()+Double.parseDouble(txtMontant.getText()));
+        b.ajouterCat(choixCat.getValue());
+        DBConnection.addCatBudg(b);
+        System.out.println("Categorie ajoutée avec succès!");
+        DBConnection.user.ajouterBudget(b);
+    }
+    
     private void ajouterBudget() throws SQLException{
-        SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy :: HH:mm:ss");
         Date d = new Date();
-        Budget b = new Budget(txtNameBudget.getText(), date.format(d), choixDuree.getValue());      
+        b = new Budget(txtNameBudget.getText(), d, choixDuree.getValue());      
         DBConnection.addBudget(b);
         System.out.println("ajout avec succés");
+        vBoxHaut.setDisable(true);
+        vBoxBas.setDisable(false);
+        
+        
     }
    
-    @FXML
-    void plus(ActionEvent event) {
-      // String montant= txtMontant.getText();
-        //String cat =choixCat.getValue();
-    }
 
 
 }

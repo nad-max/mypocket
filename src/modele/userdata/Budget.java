@@ -14,27 +14,27 @@ import java.util.Date;
 public class Budget {
     private int idBudget;
     private String nomBudget;
-    private String dateCreation;
+    private Date dateCreation;
     private int duree;
     private double montantTot;
     private ArrayList<Categorie> categories;
 
    // const
-    public Budget(int idBudget, String nomBudget, String dateCreation, int duree ,double montantTot) {
+    public Budget(int idBudget, String nomBudget, Date dateCreation, int duree ,double montantTot) {
         this.idBudget = idBudget;
         this.nomBudget = nomBudget;
         this.dateCreation = dateCreation;
         this.duree=duree;
         this.montantTot = montantTot;
+        categories = new ArrayList<Categorie>();
     }
 
-    public Budget(String nomBudget, String dateCreation, int duree) {
+    public Budget(String nomBudget, Date dateCreation, int duree) {
         this.nomBudget = nomBudget;
         this.dateCreation = dateCreation;
         this.duree = duree;
+        categories = new ArrayList<Categorie>();
     }
-    
-    
     
     
     // gettres and settres 
@@ -55,11 +55,11 @@ public class Budget {
         this.nomBudget = nomBudget;
     }
 
-    public String getDateCreation() {
+    public Date getDateCreation() {
         return dateCreation;
     }
 
-    public void setDateCreation(String dateCreation) {
+    public void setDateCreation(Date dateCreation) {
         this.dateCreation = dateCreation;
     }
 
@@ -70,10 +70,6 @@ public class Budget {
     public void setDuree(int duree) {
         this.duree = duree;
     }
-
-   
-
-    
 
     public double getMontantTot() {
         return montantTot;
@@ -92,6 +88,26 @@ public class Budget {
     }
     public void  supprimerBudget(){
     }
+    
+    public void ajouterCat(Categorie cat){
+        categories.add(cat);
+    }
+
+    public ArrayList<Categorie> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(ArrayList<Categorie> categories) {
+        this.categories = categories;
+    }
+    
+
+    @Override
+    public String toString() {
+        return "Budget{" + "idBudget=" + idBudget + ", nomBudget=" + nomBudget + ", dateCreation=" + dateCreation + ", duree=" + duree + ", montantTot=" + montantTot + ", categories=" + categories.toString() + '}';
+    }
+    
+    
     
     
     

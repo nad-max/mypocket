@@ -93,8 +93,7 @@ public class RevenuViewController implements Initializable {
     
     
     private void ajouterRevenu() throws SQLException{
-              Date d = new Date();
-            
+             Date d = new Date();
              Revenu r = new Revenu(srcChoice.getValue(), d, Double.parseDouble(txtMontant.getText()));
              DBConnection.addRevenu(r);
              System.out.println("ajout avec succés");

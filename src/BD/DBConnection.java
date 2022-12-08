@@ -199,16 +199,42 @@ public class DBConnection {
 //     }
          
      public static void  addBudget(Budget b) throws SQLException{
-         
+         SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy :: HH:mm:ss");
          con=DBConnection.getConnexion();
-         PreparedStatement ps = con.prepareStatement("insert into budget(nomBudget,dateCreation,duree,idUser ) values (?,?,?,?)");
+         PreparedStatement ps = con.prepareStatement("insert into budget(nomBudget,dateCreation,duree,idUser ) values (?,?,?,?)",PreparedStatement.RETURN_GENERATED_KEYS);
              ps.setString(1, b.getNomBudget());
-             ps.setString(2, b.getDateCreation());
+             ps.setString(2, date.format(b.getDateCreation()));
              ps.setInt(3, b.getDuree());
              ps.setInt(4, user.getIdUser());
+             ps.execute();
+             ResultSet generatedKeys = ps.getGeneratedKeys(); 
+             if(generatedKeys.next()){
+                 b.setIdBudget(generatedKeys.getInt(1));
+                 System.out.println("Budget dans la base"+b.toString());
+                 user.ajouterBudget(b);
+             }
+             
+            
+     }  
+     
+     public static void addCatBudg(Budget budg) throws SQLException{
+         con=DBConnection.getConnexion();
+         
+         PreparedStatement ps = con.prepareStatement("""
+                                                     INSERT into 
+                                                     catbudget(idBudget,categorie) values (?,?)""");
+             ps.setInt(1, budg.getIdBudget());
+             ps.setString(2, budg.getCategories().get(budg.getCategories().size()-1).getLibCat());
              ps.executeUpdate();
-     }    
-      
+             //ps.setInt(4, user.getIdUser());
+             //ps.setString(5, r.getType());
+             
+             
+             PreparedStatement ps1 = con.prepareStatement("update  budget set montantTot = ? where idBudget='"+budg.getIdBudget()+"'");
+             ps1.setDouble(1, budg.getMontantTot());
+             ps1.executeUpdate();
+         
+     }
      
      public static void chargerlistCategories(){
          listCategories = new ArrayList<Categorie>();

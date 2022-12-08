@@ -13,11 +13,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import modele.userdata.Budget;
+import modele.userdata.Categorie;
 import modele.userdata.Depense;
 import modele.userdata.Revenu;
+import modele.userdata.SousCategorie;
 import modele.userdata.Transaction;
 
 /**
@@ -56,7 +60,8 @@ public class DBConnection {
          }   
          
          public static Utilisateur user = new Utilisateur();
-         public static Revenu revenu = new Revenu();
+         public static ArrayList<Categorie> listCategories;
+         //public static Revenu revenu = new Revenu();
          
          
             
@@ -131,7 +136,8 @@ public class DBConnection {
          //recuperer date et montant de revenu par utilisateur
      public static ObservableList<Transaction> getMontDate_transac() throws SQLException, ParseException{
          SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy :: HH:mm:ss");
-         ObservableList<Transaction> listTransac =FXCollections.observableArrayList();
+         ObservableList<Transaction> listTransac;
+         listTransac =FXCollections.observableArrayList();
          Connection conn= DBConnection.getConnexion();
         
          String reqRev = """
@@ -195,15 +201,44 @@ public class DBConnection {
      public static void  addBudget(Budget b) throws SQLException{
          
          con=DBConnection.getConnexion();
-         PreparedStatement ps = con.prepareStatement("insert into budget(nomBudget,dateCreation,duree,idUser,montantTot ) values (?,?,?,?,?)");
+         PreparedStatement ps = con.prepareStatement("insert into budget(nomBudget,dateCreation,duree,idUser ) values (?,?,?,?)");
              ps.setString(1, b.getNomBudget());
              ps.setString(2, b.getDateCreation());
              ps.setInt(3, b.getDuree());
              ps.setInt(4, user.getIdUser());
-             ps.setDouble(5, b.getMontantTot());
              ps.executeUpdate();
      }    
       
+     
+     public static void chargerlistCategories(){
+         listCategories = new ArrayList<Categorie>();
+        //Creation des categories;
+        Categorie nourritures = new Categorie(1,"Nourritures & Boissons");
+            //Sous Categories de nourritures
+            SousCategorie restaurant = new SousCategorie(11,"Restaurant & Fast Food");
+            SousCategorie alimentation = new SousCategorie(12,"Alimentation");
+            SousCategorie cafe = new SousCategorie(11,"Bar & Café");
+            ArrayList<SousCategorie> scatAlimentation= new ArrayList<SousCategorie>(Arrays.asList(restaurant,alimentation,cafe));
+            nourritures.setSousCat(scatAlimentation);
+        Categorie transport = new Categorie(2,"Transports");
+            //Sous Categories de transport
+            SousCategorie taxi = new SousCategorie(21,"Taxi");
+            SousCategorie transCommun = new SousCategorie(22,"Transport en commun");
+            SousCategorie essence = new SousCategorie(23,"Carburant (Essence, gasoil...)");
+            SousCategorie longtrajet = new SousCategorie(24,"Long trajet");
+            ArrayList<SousCategorie> scatTransport= new ArrayList<SousCategorie>(Arrays.asList(taxi,transCommun,essence,longtrajet));
+            transport.setSousCat(scatTransport);
+        Categorie loisir = new Categorie(3,"Loisirs");
+            //Sous Categories de loisir
+            SousCategorie sport = new SousCategorie(31,"Sport, remise en forme");
+            SousCategorie passion = new SousCategorie(32,"Passion, hobbies");
+            SousCategorie bienetre = new SousCategorie(33,"Beaute et bien etre");
+            SousCategorie livre = new SousCategorie(24,"Livre, audio, abonnement");
+            ArrayList<SousCategorie> scatLoisir= new ArrayList<SousCategorie>(Arrays.asList(sport,passion,bienetre,livre));
+            loisir.setSousCat(scatLoisir);
+        
+        listCategories = new ArrayList<Categorie>(Arrays.asList(nourritures,transport,loisir));
+    }
             
 }
     

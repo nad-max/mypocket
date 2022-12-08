@@ -4,8 +4,11 @@
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
@@ -13,7 +16,17 @@
 
 <HBox prefHeight="400.0" prefWidth="700.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ViewController.LoginController">
    <children>
-      <Pane prefHeight="400.0" prefWidth="400.0" style="-fx-background-color: #4285F4;" />
+      <Pane prefHeight="400.0" prefWidth="400.0" style="-fx-background-color: #4285F4;">
+         <children>
+            <ImageView fitHeight="400.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true">
+               <viewport>
+                  <Rectangle2D />
+               </viewport>
+               <image>
+                  <Image url="@../assets/MyPocketLogin.jpg" />
+               </image>
+            </ImageView>
+         </children></Pane>
       <VBox alignment="CENTER" prefWidth="300.0" spacing="20.0">
          <children>
             <Label text="Login" textFill="#555555">

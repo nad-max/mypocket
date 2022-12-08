@@ -13,7 +13,7 @@
    <children>
       <Label text="Nouveau Budget">
          <font>
-            <Font name="System Bold" size="14.0" />
+            <Font name="System Bold" size="18.0" />
          </font>
       </Label>
       <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="5.0">
@@ -28,21 +28,30 @@
             <JFXComboBox fx:id="choixDuree" />
          </children>
       </HBox>
-      <Label text="Dépenses à ne pas dépasser :" />
-      <HBox alignment="TOP_RIGHT" prefWidth="200.0">
+      <HBox prefWidth="200.0">
          <children>
             <JFXButton fx:id="btnValider" onAction="#valider" style="-fx-background-color: #4285f4;" text="Valider" textFill="WHITE" />
          </children>
          <VBox.margin>
-            <Insets top="15.0" />
+            <Insets bottom="15.0" top="5.0" />
          </VBox.margin>
       </HBox>
+      <Label text="Dépenses à ne pas dépasser :" />
       <HBox alignment="CENTER_LEFT" prefHeight="34.0" prefWidth="563.0" spacing="7.0">
          <children>
-            <Label text="Montant :" />
+            <Label fx:id="montantFieldDep" text="Montant :" />
             <JFXTextField fx:id="txtMontant" promptText="Ne pas dépasser" />
             <JFXComboBox fx:id="choixCat" promptText="Catégorie" />
             <JFXButton fx:id="btnPlus" onAction="#plus" style="-fx-background-color: #4285f4CC;" text="+" textFill="WHITE" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_RIGHT" prefWidth="200.0">
+         <children>
+            <JFXButton fx:id="btnValider2" onAction="#valider" style="-fx-background-color: #4285f4;" text="Terminer" textFill="WHITE">
+               <HBox.margin>
+                  <Insets top="7.0" />
+               </HBox.margin>
+            </JFXButton>
          </children>
       </HBox>
    </children>

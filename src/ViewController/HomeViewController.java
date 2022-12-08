@@ -5,6 +5,7 @@
 package ViewController;
 
 import BD.DBConnection;
+import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
@@ -32,6 +33,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
+import modele.userdata.Categorie;
 import modele.userdata.Revenu;
 import modele.userdata.Transaction;
 
@@ -42,11 +45,11 @@ import modele.userdata.Transaction;
  */
 public class HomeViewController implements Initializable {
 
-    @FXML
-    private ComboBox<String> choixTransac;
+    /*@FXML
+    private ComboBox<String> choixTransac;*/
     
-    @FXML
-    private ComboBox<String> choixBudg;
+    /*@FXML
+    private ComboBox<String> choixBudg;*/
     
     @FXML
     private Label txtDate;
@@ -69,13 +72,16 @@ public class HomeViewController implements Initializable {
     private TableView<Transaction> transacTab;
     
     @FXML
-    private Hyperlink logoutBtn;
+    private JFXButton logoutBtn;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        //Charger la liste des categories
+        DBConnection.chargerlistCategories();
+        
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-         choixTransac.getItems().addAll("Revenu","Dépense");
-    
+         //choixTransac.getItems().addAll("Revenu","Dépense");
+         
           //afficher les transactions dans tableView
         try {
             ObservableList<Transaction> list = DBConnection.getMontDate_transac();
@@ -91,66 +97,6 @@ public class HomeViewController implements Initializable {
             Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-        // comboBox
-         EventHandler<ActionEvent> eventTransac = (ActionEvent e) -> {    
-             if (choixTransac.getValue().equals("Revenu")) {
-                 try {
-                     //TODO:Ouvrir l'interface Revenu View
-                      Stage primaryStage = new Stage();
-                      Parent root = FXMLLoader.load(getClass().getResource("RevenuView.fxml"));
-                      Scene scene = new Scene(root);
-                      primaryStage.setTitle("Revenu");
-                      primaryStage.setScene(scene);
-                      primaryStage.show();
-                      
-                     //new HomeViewController.RevenuPage().start((Stage)choixTransac.getScene().getWindow());
-                 } catch (IOException ex) {
-                     Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
-                 }
-                 
-             }else if(choixTransac.getValue().equals("Dépense")){
-                 //TODO:Ouvrir l'interface Depense View
-                 try {
-                      Stage primaryStage = new Stage();
-                      Parent root = FXMLLoader.load(getClass().getResource("DepenseView.fxml"));
-                      Scene scene = new Scene(root);
-                      primaryStage.setTitle("Depense");
-                      primaryStage.setScene(scene);
-                      primaryStage.show();
-                 } catch (IOException ex) {
-                     Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
-                 }
-             }
-             System.out.println(choixTransac.getValue() + " selected");
-         };
-          //affecter le event
-         choixTransac.setOnAction(eventTransac);
-                
-         //TODO: faire de meme pour choixBudg (eventHandler et setOnAction)
-         choixBudg.getItems().addAll("Génerer un budget","Créer manuellement");
-          EventHandler<ActionEvent> eventBudget = (ActionEvent e) -> {    
-             if (choixBudg.getValue().equals("Créer manuellement")) {
-                 try {
-                     //TODO:Ouvrir l'interface Revenu View
-                      Stage primaryStage = new Stage();
-                      Parent root = FXMLLoader.load(getClass().getResource("NewBudget.fxml"));
-                      Scene scene = new Scene(root);
-                      primaryStage.setTitle("Nouveau Budget");
-                      primaryStage.setScene(scene);
-                      primaryStage.show();
-                     //new HomeViewController.RevenuPage().start((Stage)choixTransac.getScene().getWindow());
-                 } catch (IOException ex) {
-                     Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
-                 }
-                 
-             }};
-             //affecter le event
-         choixBudg.setOnAction(eventBudget);
-         
-         
-         
-         
-         
          
          
          // top Hbox
@@ -166,9 +112,8 @@ public class HomeViewController implements Initializable {
          
         
     }
-    //click sur table des transactions
-    @FXML
-    void Rafraichir(MouseEvent event) throws ParseException{
+
+    void Rafraichir() throws ParseException{
         try {
             //afficher les transactions
             ObservableList<Transaction> list = DBConnection.getMontDate_transac();
@@ -180,7 +125,7 @@ public class HomeViewController implements Initializable {
             //System.out.println("home wiew test "+DBConnection.user.getSolde());
             
             //Raffraichir le combobox des transac
-            choixTransac.setValue("Ajouter une transaction");
+            //choixTransac.setValue("Ajouter une transaction");
         } catch (SQLException ex) {
             Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -191,6 +136,87 @@ public class HomeViewController implements Initializable {
      @FXML
     void logout(ActionEvent event) throws IOException {
           new HomeViewController.LoginPage().start((Stage)logoutBtn.getScene().getWindow());
+    }
+    
+    @FXML
+    void ajouterDep(ActionEvent event){
+         //TODO:Ouvrir l'interface Depense View
+                 try {
+                      Stage primaryStage = new Stage();
+                      Parent root = FXMLLoader.load(getClass().getResource("DepenseView.fxml"));
+                      Scene scene = new Scene(root);
+                      primaryStage.setTitle("Depense");
+                      primaryStage.setScene(scene);
+                      //primaryStage.show();
+                      primaryStage.showAndWait();
+                 } catch (IOException ex) {
+                     Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+                 try {
+                Rafraichir();
+                } catch (ParseException ex) {
+                Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+    }
+    
+    @FXML
+    void ajouterRev(ActionEvent event){
+         try {
+                     //TODO:Ouvrir l'interface Revenu View
+                      Stage primaryStage = new Stage();
+                      Parent root = FXMLLoader.load(getClass().getResource("RevenuView.fxml"));
+                      Scene scene = new Scene(root);
+                      primaryStage.setTitle("Revenu");
+                      primaryStage.setScene(scene);
+                      //primaryStage.show();
+                      primaryStage.showAndWait();
+                      
+                     //new HomeViewController.RevenuPage().start((Stage)choixTransac.getScene().getWindow());
+                 } catch (IOException ex) {
+                     Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
+                 } 
+         try {
+                Rafraichir();
+            } catch (ParseException ex) {
+                Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }
+    
+     @FXML
+    void creerBudget(ActionEvent event){
+         try {
+                     //TODO:Ouvrir l'interface Revenu View
+                      Stage primaryStage = new Stage();
+                      Parent root = FXMLLoader.load(getClass().getResource("NewBudget.fxml"));
+                      Scene scene = new Scene(root);
+                      primaryStage.setTitle("Nouveau Budget");
+                      primaryStage.setScene(scene);
+                      primaryStage.show();
+                     //new HomeViewController.RevenuPage().start((Stage)choixTransac.getScene().getWindow());
+                 } catch (IOException ex) {
+                     Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
+                 }
+    }
+    
+     @FXML
+    void genererBudget(ActionEvent event){
+        
+    }
+    
+     @FXML
+    void consulterBudg(ActionEvent event){
+         try {
+                     //TODO:Ouvrir l'interface Revenu View
+                      Stage primaryStage = new Stage();
+                      Parent root = FXMLLoader.load(getClass().getResource("ConsultBudget.fxml"));
+                      Scene scene = new Scene(root);
+                      primaryStage.setTitle("Tous les budgets");
+                      primaryStage.setScene(scene);
+                      primaryStage.show();
+                     //new HomeViewController.RevenuPage().start((Stage)choixTransac.getScene().getWindow());
+                 } catch (IOException ex) {
+                     Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
+                 }
     }
     
      private static class LoginPage extends Application {

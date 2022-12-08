@@ -11,8 +11,6 @@ import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -31,7 +29,6 @@ import modele.userdata.SousCategorie;
  * @author Omar
  */
 public class DepenseViewController implements Initializable {
-    ArrayList<Categorie> listCategories;
     
     @FXML
     private JFXButton btnValider;
@@ -54,9 +51,8 @@ public class DepenseViewController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        chargerlistCategories();
+        
         sousCategBox.setDisable(true);
-        System.out.println("ComboBox default is: "+categorieBox.getValue());
         
         //Pour afficher les noms des categories correctement
         categorieBox.setConverter(new StringConverter<Categorie>() {
@@ -91,7 +87,7 @@ public class DepenseViewController implements Initializable {
             sousCategBox.getItems().addAll(newVal.getSousCat());
         });
         
-        categorieBox.getItems().addAll(listCategories);
+        categorieBox.getItems().addAll(DBConnection.listCategories);
         
         
         System.out.println("Depense initialized!");
@@ -146,33 +142,6 @@ public class DepenseViewController implements Initializable {
             
     }
     
-    private void chargerlistCategories(){
-        //Creation des categories;
-        Categorie nourritures = new Categorie(1,"Nourritures & Boissons");
-            //Sous Categories de nourritures
-            SousCategorie restaurant = new SousCategorie(11,"Restaurant & Fast Food");
-            SousCategorie alimentation = new SousCategorie(12,"Alimentation");
-            SousCategorie cafe = new SousCategorie(11,"Bar & Café");
-            ArrayList<SousCategorie> scatAlimentation= new ArrayList<SousCategorie>(Arrays.asList(restaurant,alimentation,cafe));
-            nourritures.setSousCat(scatAlimentation);
-        Categorie transport = new Categorie(2,"Transports");
-            //Sous Categories de transport
-            SousCategorie taxi = new SousCategorie(21,"Taxi");
-            SousCategorie transCommun = new SousCategorie(22,"Transport en commun");
-            SousCategorie essence = new SousCategorie(23,"Carburant (Essence, gasoil...)");
-            SousCategorie longtrajet = new SousCategorie(24,"Long trajet");
-            ArrayList<SousCategorie> scatTransport= new ArrayList<SousCategorie>(Arrays.asList(taxi,transCommun,essence,longtrajet));
-            transport.setSousCat(scatTransport);
-        Categorie loisir = new Categorie(3,"Loisirs");
-            //Sous Categories de loisir
-            SousCategorie sport = new SousCategorie(31,"Sport, remise en forme");
-            SousCategorie passion = new SousCategorie(32,"Passion, hobbies");
-            SousCategorie bienetre = new SousCategorie(33,"Beaute et bien etre");
-            SousCategorie livre = new SousCategorie(24,"Livre, audio, abonnement");
-            ArrayList<SousCategorie> scatLoisir= new ArrayList<SousCategorie>(Arrays.asList(sport,passion,bienetre,livre));
-            loisir.setSousCat(scatLoisir);
-        
-        listCategories = new ArrayList<Categorie>(Arrays.asList(nourritures,transport,loisir));
-    }
+    
     
 }

@@ -18,7 +18,9 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.util.StringConverter;
 import modele.userdata.Budget;
+import modele.userdata.Categorie;
 
 /**
  * FXML Controller class
@@ -34,7 +36,7 @@ public class NewBudgetController implements Initializable {
     private JFXButton btnValider;
 
     @FXML
-    private JFXComboBox<String> choixCat;
+    private JFXComboBox<Categorie> choixCat;
 
     @FXML
    private JFXComboBox<Integer> choixDuree;
@@ -54,40 +56,43 @@ public class NewBudgetController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        choixCat.getItems().addAll("Transport","Supermarché", "Divertissement", "Domicile", "Santé et beauté", "Autres");
-        choixDuree.getItems().addAll(7,30);
-        //choixCat.getValue().equals("Transport")
-//         EventHandler<ActionEvent> eventCat = (ActionEvent e) -> { 
-//        if( choixCat.getValue().equals("Transport")){
-//            choixSousCat.getItems().addAll("Taxi", "Transport publique");
-//        } 
-//        else if(choixCat.getValue().equals("Supermarché")){
-//            choixSousCat.getItems().clear();
-//            choixSousCat.getItems().addAll("Nourriture", "Produits Nettoyage", "Vetements", "Autres");
-//        }
-//        else if(choixCat.getValue().equals("Divertissement")){
-//            choixSousCat.getItems().clear();
-//            choixSousCat.getItems().addAll("Cinema", "Restaurant", "Livres", "Autres");
-//        }
-//        else if(choixCat.getValue().equals("Domicile")){
-//            choixSousCat.getItems().clear();
-//            choixSousCat.getItems().addAll("Electricité", "Loyer", "Internet", "Credit","Carburant", "Eau", "Autres");
-//        }
-//        else if(choixCat.getValue().equals("Santé et beauté")){
-//            choixSousCat.getItems().clear();
-//            choixSousCat.getItems().addAll("Médicaments", "Produits cosmétiques", "Consultation", "Autres");
-//        }
-//        
-//         
-//         };
-        //choixCat.setOnAction(eventCat);
+
+        //Pour afficher les noms des categories correctement
+        choixCat.setConverter(new StringConverter<Categorie>() {
+        @Override
+        public String toString(Categorie cat) {
+                return cat.getLibCat();
+        }
+
+        @Override
+        public Categorie fromString(String string) {
+            return null;
+        }
+        });
         
+        choixDuree.setConverter(new StringConverter<Integer>() {
+        @Override
+        public String toString(Integer i) {
+            if (i==null) return "Durée en semaine";
+            if (i.equals(7)) return "1 semaine";
+            else if(i.equals(30)) return "1 mois"; 
+            return "";
+        }
+
+            @Override
+            public Integer fromString(String string) {
+                throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+            }
+        });
+        
+        choixCat.getItems().addAll(DBConnection.listCategories); 
+        choixDuree.getItems().addAll(7,30);
         
     }    
      @FXML
     void valider(ActionEvent event) throws SQLException {
          
-         if( txtNameBudget.getText().equals("" ) || choixDuree.getValue().equals(0) ){
+         if( txtNameBudget.getText().equals("" ) || choixDuree.getValue() == null ){
               Alert al = new Alert(Alert.AlertType.WARNING, "S'il vous plait veuillez remplir les champs !");
               al.show();
          }
@@ -108,8 +113,8 @@ public class NewBudgetController implements Initializable {
    
     @FXML
     void plus(ActionEvent event) {
-       String montant= txtMontant.getText();
-        String cat =choixCat.getValue();
+      // String montant= txtMontant.getText();
+        //String cat =choixCat.getValue();
     }
 
 

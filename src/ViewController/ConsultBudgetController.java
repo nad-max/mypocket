@@ -10,6 +10,7 @@ import com.jfoenix.controls.JFXComboBox;
 import java.net.URL;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,9 +18,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import modele.userdata.Budget;
+import modele.userdata.Transaction;
 
 /**
  * FXML Controller class
@@ -35,10 +38,18 @@ public class ConsultBudgetController implements Initializable {
 
     @FXML
     private Label montantBudget;
-
+    
+    @FXML
+    private Label depassText;
     
      @FXML
     private JFXButton btnFermer;
+     
+    @FXML
+    private ProgressBar progBar;
+    
+    @FXML
+    private Label dateText;
 
     
 
@@ -79,7 +90,26 @@ public class ConsultBudgetController implements Initializable {
                dureeBudget.setText("1 mois"); 
             }
             
+            dateText.setText(newVal.getDateCreation().toString());
+            
             montantBudget.setText(""+newVal.getMontantTot()+" DT");
+             try {
+                 double depassement = newVal.testDepassement(new ArrayList<Transaction>(DBConnection.getMontDate_transac()));
+                 if(depassement == -1){
+                     depassText.setText("Budget obsolete!");
+                     progBar.setProgress(0);
+                 }else if(depassement>=newVal.getMontantTot() && depassement>0){
+                     depassText.setText("Oui");
+                     progBar.setProgress(1);
+                 }else{
+                     depassText.setText("Non");
+                     progBar.setProgress(depassement/newVal.getMontantTot());
+                 }
+             } catch (SQLException ex) {
+                 Logger.getLogger(ConsultBudgetController.class.getName()).log(Level.SEVERE, null, ex);
+             } catch (ParseException ex) {
+                 Logger.getLogger(ConsultBudgetController.class.getName()).log(Level.SEVERE, null, ex);
+             }
                 
         });
     }

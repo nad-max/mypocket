@@ -163,6 +163,7 @@ public class DBConnection {
          while (rs1.next()) {
  	 Transaction rev = new Revenu(date.parse(rs1.getString(1)), rs1.getDouble(2));
  	 listTransac.add(rev);
+
          }
          //execution de select des depenses
          PreparedStatement ps2;
@@ -174,8 +175,9 @@ public class DBConnection {
          while (rs2.next()) {
  	 Transaction dep = new Depense(rs2.getDouble(1), date.parse(rs2.getString(2)), rs2.getString(3), rs2.getString(4));
  	 listTransac.add(dep);
+
          }
-         System.out.print("Affichage de la lite des transac"+listTransac.toString());
+         //System.out.print("Affichage de la lite des transac"+listTransac.toString());
          
          return listTransac;
      }   
@@ -279,14 +281,27 @@ public class DBConnection {
                       FROM budget
                       WHERE idUser = '"""+user.getIdUser()+ "'";
 	 PreparedStatement ps1;
-         
+         PreparedStatement ps2;
 	 ResultSet rs1;
+         ResultSet rs2;
          ps1=con.prepareStatement(req);
          //ps.setInt(1,user.getIdUser());
  	 rs1=ps1.executeQuery(req);
          
          while (rs1.next()) {
          Budget b = new Budget(rs1.getInt(1), rs1.getString(2), date.parse(rs1.getString(3)), rs1.getInt(4), rs1.getDouble(5));
+         //Pour avoir la liste de categories de chaque budget
+         String req2 = """
+                      SELECT *
+                      FROM catbudget
+                      WHERE idBudget = '"""+b.getIdBudget()+ "'";
+         ps2=con.prepareStatement(req2);
+         rs2=ps2.executeQuery(req2);
+         while (rs2.next()){
+             Categorie cat = new Categorie(rs2.getString(3));
+               b.ajouterCat(cat);
+         }
+
  	 listBudgets.add(b); 
     }
          return listBudgets;

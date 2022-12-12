@@ -4,6 +4,7 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -19,6 +20,12 @@
       <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="5.0" />
       <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="5.0">
          <children>
+            <Label text="Date creation :" />
+            <Label fx:id="dateText" text="Date" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="5.0">
+         <children>
             <Label text="Durée :" />
             <Label fx:id="dureeBudget" text="1 moi/ 1 semaine.." />
          </children>
@@ -31,17 +38,18 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
-            <Label fx:id="montantBudget1" layoutX="67.0" layoutY="10.0">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Label>
+         </children>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" spacing="5.0">
+         <children>
+            <Label text="Progression :" />
+            <ProgressBar fx:id="progBar" prefWidth="200.0" progress="0.0" />
          </children>
       </HBox>
       <HBox alignment="CENTER_LEFT" spacing="5.0">
          <children>
             <Label text="Dépassement :" />
-            <Label text="Oui / Non et quelles Categories">
+            <Label fx:id="depassText" text="Oui / Non ">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>

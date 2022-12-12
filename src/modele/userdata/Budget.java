@@ -6,6 +6,9 @@ package modele.userdata;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -99,6 +102,46 @@ public class Budget {
 
     public void setCategories(ArrayList<Categorie> categories) {
         this.categories = categories;
+    }
+    
+    public double testDepassement(ArrayList<Transaction> transactions){
+        //retourne le montantReel du budget (progression du budget); et -1 si le budget est obsolete;
+        System.out.println("lancement test depassement:");
+        //Extraire uniquement les transaction "depenses" et de meme categories que le budget
+        List<Transaction> deps = transactions.stream()
+                .filter(e->{
+                    if (e instanceof Depense depense ){
+                        for(Categorie cat  :categories){
+                            String categTransac = depense.getCategorie().getLibCat();
+                            if(cat.getLibCat().equals(categTransac)) return true;
+                        }
+                    }
+                    return false;
+                            }).collect(Collectors.toList());
+        System.out.println("Depenses filtre: "+deps.toString());
+        Date date = new Date();
+        long dateNow = date.getTime();
+        long dateCreatBudg = dateCreation.getTime();
+        long dureeReelBudg = TimeUnit.DAYS.convert(dateNow - dateCreatBudg, TimeUnit.MILLISECONDS);
+        System.out.println("nbr jours budget:"+ dureeReelBudg);
+        if(dureeReelBudg>duree){
+            System.out.println("Ce budget est expire il y a : "+(dureeReelBudg-duree)+" Jours");
+            return -1;
+        }else{
+            //voir si il y a un depassement
+            double sommeTransactions=0;
+            for(Transaction depense : deps){
+                //voir pour chaque depense si on doit ajouter sa somme au budget 
+                if(depense.getDateTransac().compareTo(dateCreation)>0){
+                    //si la transaction est inclue dans la periode du budget
+                    sommeTransactions=sommeTransactions + Math.abs(depense.getMontantTransac());
+                    
+                }
+            }
+            return sommeTransactions;
+        }
+
+
     }
     
 

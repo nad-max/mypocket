@@ -117,10 +117,12 @@ public class Utilisateur {
     
     public void ajouterTransac(Transaction tran){
         transactions.add(tran);
-        this.solde= solde + tran.getMontantTransac(); 
     }
     public void ajouterBudget(Budget budg){
         budgets.add(budg);
+    }
+    public void clearTransactions(){
+        transactions.clear();
     }
 
     @Override

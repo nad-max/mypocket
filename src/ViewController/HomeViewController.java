@@ -11,11 +11,14 @@ import java.net.URL;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Application;
+import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -25,6 +28,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
@@ -32,6 +36,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import modele.userdata.Categorie;
@@ -73,7 +80,14 @@ public class HomeViewController implements Initializable {
     
     @FXML
     private JFXButton logoutBtn;
-
+    @FXML
+    private VBox RhBox;
+     @FXML
+    private Pane pane;
+     @FXML
+    private PieChart pieChart;
+ 
+     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //Charger la liste des categories
@@ -89,7 +103,7 @@ public class HomeViewController implements Initializable {
             dateCol.setCellValueFactory(new PropertyValueFactory<Transaction,Date>("dateTransac"));
             //colType.setCellValueFactory(new PropertyValueFactory<Transaction,String>("type"));
             transacTab.setItems(list);
-            //same for depense
+            
                     
         } catch (SQLException ex) {
             Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
@@ -109,8 +123,51 @@ public class HomeViewController implements Initializable {
          //solde
          txtSolde.setText(""+DBConnection.user.getSolde()+" TND");
          System.out.println(DBConnection.user.getSolde());
-         
         
+        try {
+            //pie chart
+            DBConnection.getCategoriesDetails();
+           
+        } catch (SQLException ex) {
+            Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+        
+         
+         //adding data 
+         for (int j = 0; j < DBConnection.categoryNames.size(); j++) {
+	   pieChartData.add(new PieChart.Data(DBConnection.categoryNames.get(j), DBConnection.categoryCount.get(j)));
+	  pieChartData.get(j).toString();
+           System.out.println( pieChartData.get(j).toString());}
+          PieChart pieChart = new PieChart(pieChartData);
+          pieChart.setTitle("Dépenses selon catégories");
+          
+          pieChart.setPrefHeight(200);
+
+          
+          pieChart.setPrefWidth(200);
+
+	  pieChart.setPrefSize(200, 200);
+	  pieChart.setMinSize(420, 300);
+	  pieChart.setMaxSize(420, 300);
+
+          // setting the direction to arrange the data
+           pieChart.setClockwise(true);
+
+          // Setting the length of the label line
+          pieChart.setLabelLineLength(20);
+
+	 //Setting the labels of the pie chart visible
+	pieChart.setLabelsVisible(true);
+
+	// Setting the start angle of the pie chart
+	pieChart.setStartAngle(180);
+	pieChart.setAnimated(true);
+	pieChart.animatedProperty();
+      
+        pane.getChildren().add(pieChart);
+       
+        System.out.println("Category chart is generated ");
     }
 
     void Rafraichir() throws ParseException{
@@ -122,7 +179,7 @@ public class HomeViewController implements Initializable {
             transacTab.setItems(list); 
             //set solde
             txtSolde.setText(""+DBConnection.user.getSolde()+" TND");
-            //System.out.println("home wiew test "+DBConnection.user.getSolde());
+            
             
             //Raffraichir le combobox des transac
             //choixTransac.setValue("Ajouter une transaction");

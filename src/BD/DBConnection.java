@@ -51,16 +51,20 @@ public class DBConnection {
             
          public static void addUser(Utilisateur user) throws SQLException{
              Connection conn= DBConnection.getConnexion();
-             PreparedStatement ps = conn.prepareStatement("insert into user(nomUser, pw, nom, dateCrt) values (?,?,?,?)");
+             PreparedStatement ps = conn.prepareStatement("insert into user(nomUser, pw, nom, dateCrt, solde) values (?,?,?,?,?)");
              ps.setString(1, user.getNomUser());
              ps.setString(2, user.getPw());
              ps.setString(3, user.getNom());
              ps.setString(4, user.getDateCrt());
+             ps.setDouble(5, user.getSolde());
              ps.executeUpdate();
          }   
          
          public static Utilisateur user = new Utilisateur();
          public static ArrayList<Categorie> listCategories;
+         public static ArrayList<Budget> listBudgets; 
+         public static ArrayList<String> categoryNames;
+         public static ArrayList<Integer> categoryCount;
          //public static Revenu revenu = new Revenu();
          
          
@@ -207,7 +211,7 @@ public class DBConnection {
              ps.setInt(3, b.getDuree());
              ps.setInt(4, user.getIdUser());
              ps.execute();
-             ResultSet generatedKeys = ps.getGeneratedKeys(); 
+             ResultSet generatedKeys = ps.getGeneratedKeys();
              if(generatedKeys.next()){
                  b.setIdBudget(generatedKeys.getInt(1));
                  System.out.println("Budget dans la base"+b.toString());
@@ -265,6 +269,77 @@ public class DBConnection {
         
         listCategories = new ArrayList<Categorie>(Arrays.asList(nourritures,transport,loisir));
     }
-            
+    
+     public static ArrayList<Budget> chargerlistBudgets() throws SQLException, ParseException{ 
+        listBudgets = new ArrayList<Budget>();
+         SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy :: HH:mm:ss");
+         con=DBConnection.getConnexion();
+         String req = """
+                      SELECT *
+                      FROM budget
+                      WHERE idUser = '"""+user.getIdUser()+ "'";
+	 PreparedStatement ps1;
+         
+	 ResultSet rs1;
+         ps1=con.prepareStatement(req);
+         //ps.setInt(1,user.getIdUser());
+ 	 rs1=ps1.executeQuery(req);
+         
+         while (rs1.next()) {
+         Budget b = new Budget(rs1.getInt(1), rs1.getString(2), date.parse(rs1.getString(3)), rs1.getInt(4), rs1.getDouble(5));
+ 	 listBudgets.add(b); 
+    }
+         return listBudgets;
+     } 
+     
+     public static void getCategoriesDetails() throws SQLException{
+         // recuperer categories name
+         chargerlistCategories();
+         //test
+         for(int i=0;i<listCategories.size();i++){
+              System.out.println("Categories "+listCategories.get(i).getLibCat());   
+         }
+         categoryNames =new ArrayList<String>();
+         //listCategories =new ArrayList<Categorie>();
+        
+         
+        for(int i=0; i<DBConnection.listCategories.size(); i++){
+           
+            categoryNames.add(listCategories.get(i).getLibCat());
+           
+        }
+         
+        for(int i=0; i<DBConnection.categoryNames.size(); i++){
+            //categoryNames.add(listCategories.get(i).getLibCat());
+            System.out.println("name "+categoryNames.get(i));
+        }
+        
+        
+        
+        // category count list from depense
+        categoryCount= new ArrayList<Integer>();
+        con=DBConnection.getConnexion();
+        PreparedStatement ps;
+         ResultSet rs; 
+        for (int i = 0; i < categoryNames.size(); i++) {
+	 String query =" select sum(montantTransac) from depense where depense.categorie = '"+ categoryNames.get(i) + "' and depense.idUser= '"+user.getIdUser()+ "'";
+//	con = DBConnection.getConnexion();
+	int cCount = 0;
+	ps = con.prepareStatement(query);
+	rs=ps.executeQuery();
+	while(rs.next()) {
+	cCount = cCount + rs.getInt(1);
+	}
+	categoryCount.add(cCount);
+             
+        }
+        for (int i = 0; i < categoryCount.size(); i++) {
+             System.out.println("count "+categoryCount.get(i));
+        }
+        
+     }
+     
+     
+     
 }
     

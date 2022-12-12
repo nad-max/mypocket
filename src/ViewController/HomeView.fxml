@@ -3,9 +3,6 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.LineChart?>
-<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -13,6 +10,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -75,8 +73,8 @@
                   </Label>
                   <TableView fx:id="transacTab" prefHeight="192.0" prefWidth="232.0" style="-fx-border-color: #4285F4;">
                     <columns>
-                      <TableColumn fx:id="montantCol" prefWidth="71.199951171875" text="Montant" />
-                      <TableColumn fx:id="dateCol" prefWidth="138.40000915527344" text="Date" />
+                      <TableColumn fx:id="montantCol" prefWidth="81.59997034072876" text="Montant" />
+                      <TableColumn fx:id="dateCol" prefWidth="204.80004119873047" text="Date" />
                     </columns>
                   </TableView>
                   <HBox>
@@ -89,32 +87,36 @@
                         <Insets top="10.0" />
                      </VBox.margin>
                   </HBox>
+                  <HBox prefHeight="39.0" prefWidth="288.0">
+                     <children>
+                        <JFXButton fx:id="btnCrtbudg" onAction="#creerBudget" style="-fx-background-color: #EEEEEE;" text="Créer un budget" />
+                        <Region prefHeight="39.0" prefWidth="56.0" />
+                        <JFXButton fx:id="btnGnrBudg" onAction="#genererBudget" style="-fx-background-color: #EEEEEE;" text="Génerer un budget" />
+                     </children>
+                  </HBox>
+                  <JFXButton fx:id="btnVoirBudg" onAction="#consulterBudg" style="-fx-background-color: #4285F4;" text="Voir les budgets" textFill="WHITE" />
                </children>
             </VBox>
             <Region prefHeight="398.0" prefWidth="66.0" />
-            <VBox alignment="CENTER_LEFT" layoutX="291.0" layoutY="10.0" prefHeight="398.0" prefWidth="353.0" spacing="8.0">
+            <VBox fx:id="RhBox" alignment="CENTER_LEFT" layoutX="291.0" layoutY="10.0" prefHeight="398.0" prefWidth="353.0" spacing="8.0">
                <children>
                   <Label text="Statistiques :">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Label>
-                  <LineChart prefHeight="202.0" prefWidth="286.0">
-                    <xAxis>
-                      <CategoryAxis side="BOTTOM" />
-                    </xAxis>
-                    <yAxis>
-                      <NumberAxis side="LEFT" />
-                    </yAxis>
-                  </LineChart>
+                  <Pane fx:id="pane" prefHeight="200.0" prefWidth="200.0">
+                     <VBox.margin>
+                        <Insets bottom="120.0" />
+                     </VBox.margin></Pane>
                   <HBox>
                      <children>
-                        <JFXButton fx:id="btnCrtbudg" onAction="#creerBudget" style="-fx-background-color: #EEEEEE;" text="Créer un budget" />
                         <Region HBox.hgrow="ALWAYS" />
-                        <JFXButton fx:id="btnGnrBudg" onAction="#genererBudget" style="-fx-background-color: #EEEEEE;" text="Génerer un budget" />
                         <Region HBox.hgrow="ALWAYS" />
-                        <JFXButton fx:id="btnVoirBudg" onAction="#consulterBudg" style="-fx-background-color: #4285F4;" text="Voir les budgets" textFill="WHITE" />
                      </children>
+                     <VBox.margin>
+                        <Insets bottom="-20.0" />
+                     </VBox.margin>
                   </HBox>
                </children>
             </VBox>

@@ -19,6 +19,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import modele.userdata.Budget;
 import modele.userdata.Categorie;
@@ -41,6 +42,8 @@ public class NewBudgetController implements Initializable {
 
     @FXML
     private JFXButton btnValider;
+     @FXML
+    private JFXButton btnTerminer;
 
     @FXML
     private JFXComboBox<Categorie> choixCat;
@@ -53,6 +56,7 @@ public class NewBudgetController implements Initializable {
 
     @FXML
     private JFXTextField txtNameBudget;
+    
     
     private Budget b;
     
@@ -109,7 +113,11 @@ public class NewBudgetController implements Initializable {
         
 
     }
-    
+     @FXML
+    void fermer(ActionEvent event) {
+       Stage window = (Stage)btnTerminer.getScene().getWindow();
+              window.close();
+    }
      @FXML
     void ajouterCatBtn(ActionEvent event) throws SQLException{
         String montant= txtMontant.getText();
@@ -124,7 +132,7 @@ public class NewBudgetController implements Initializable {
             Alert alertSucc = new Alert(Alert.AlertType.CONFIRMATION);
                 alertSucc.setTitle("Message");
                 alertSucc.setHeaderText("Succés!");
-                alertSucc.setContentText("Categorie"+choixCat.getValue().getLibCat()+"ajoutée avec succés");
+                alertSucc.setContentText("Categorie "+choixCat.getValue().getLibCat()+" ajoutée avec succés");
                 alertSucc.show();
            choixCat.setValue(null);
            txtMontant.clear();

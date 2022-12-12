@@ -53,7 +53,7 @@
             </HBox>
             <HBox alignment="CENTER_RIGHT" prefWidth="200.0">
                <children>
-                  <JFXButton fx:id="btnTerminer" onAction="#valider" style="-fx-background-color: #4285f4;" text="Terminer" textFill="WHITE">
+                  <JFXButton fx:id="btnTerminer" onAction="#fermer" style="-fx-background-color: #4285f4;" text="Terminer" textFill="WHITE">
                      <HBox.margin>
                         <Insets top="7.0" />
                      </HBox.margin>

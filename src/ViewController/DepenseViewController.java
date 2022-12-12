@@ -10,18 +10,26 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
 import java.net.URL;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import modele.userdata.Budget;
 import modele.userdata.Categorie;
 import modele.userdata.Depense;
 import modele.userdata.SousCategorie;
+import modele.userdata.Transaction;
 
 /**
  * FXML Controller class
@@ -97,7 +105,7 @@ public class DepenseViewController implements Initializable {
     
      // action on btn valider
     @FXML
-    void valider(ActionEvent event) throws SQLException {
+    void valider(ActionEvent event) throws SQLException, ParseException {
         
         String montant= montantField.getText();
         
@@ -121,14 +129,44 @@ public class DepenseViewController implements Initializable {
         }
     }
     
-    private void ajouterDepense() throws SQLException{
+    private void ajouterDepense() throws SQLException, ParseException{
               SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy :: HH:mm:ss");
               Date d = new Date();
             
              Depense dep = new Depense(Double.parseDouble(montantField.getText()), d,categorieBox.getValue(), sousCategBox.getValue());
+             ArrayList<Transaction> transactions = new ArrayList<>(DBConnection.getMontDate_transac());
+             transactions.add(dep);
+             List<Budget> budgetsDepasse = DBConnection.listBudgets.stream().filter(e->{
+                  double montantReel = e.testDepassement(transactions);
+                 //pour tester si c'est CETTE transaction qui cause le depassement, il faut s'assurer
+                 //que la somme des ancienne transactions (avant cette depense) est inferieur au montant totalbudget
+                 //autrement dit: que c'est le premier depassement
+                 double montantAncienneTransacs = montantReel + dep.getMontantTransac();
+                 System.out.println("montantAncienneTransacs: "+montantAncienneTransacs+"; montantReel: "+montantReel);
+                 return (montantReel>e.getMontantTot() && montantAncienneTransacs<=e.getMontantTot());
+                         }).collect(Collectors.toList());
+             System.out.println("Nbr budgets depassés= "+budgetsDepasse.size());
+             if(!budgetsDepasse.isEmpty()){
+                 System.out.println("Avec cette transaction, vous risquez de depasser un budget!");
+                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                          alert.setTitle("Depassement du budget! ");
+                          alert.setHeaderText("Avec cette transaction, vous risquez de depasser le budget:"+ budgetsDepasse.get(0).getNomBudget()
+                          +"! Etes-vous sur de vouloir continuer?");
+
+                             // option != null.
+                            Optional<ButtonType> option = alert.showAndWait();
+
+                                 if (option.get() == ButtonType.OK) {
+                                 DBConnection.addDepense(dep);
+                                 System.out.println("ajout depense (avec depassement avec succés");
+                                 } 
+
+             }else{
              System.out.println(dep.toString());
              DBConnection.addDepense(dep);
-             System.out.println("ajout depense avec succés");
+             System.out.println("ajout depense (sans depassement) avec succés");
+             }
+             
              Stage window = (Stage)btnValider.getScene().getWindow();
              window.close();
             

@@ -29,6 +29,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
@@ -41,7 +42,9 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+import modele.userdata.Budget;
 import modele.userdata.Categorie;
+import modele.userdata.Depense;
 import modele.userdata.Revenu;
 import modele.userdata.Transaction;
 
@@ -90,8 +93,15 @@ public class HomeViewController implements Initializable {
      
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        //Charger la liste des categories
+        //Charger la liste des categories et les budgets
         DBConnection.chargerlistCategories();
+        try {
+            DBConnection.chargerlistBudgets();
+        } catch (SQLException ex) {
+            Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ParseException ex) {
+            Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         //throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
          //choixTransac.getItems().addAll("Revenu","Dépense");
@@ -256,9 +266,43 @@ public class HomeViewController implements Initializable {
     }
     
      @FXML
-    void genererBudget(ActionEvent event){
-        
-    }
+    void genererBudget(ActionEvent event) throws SQLException, ParseException{
+        //Genere un budget automatiquement a partir des 30 dernieres transactions;
+        Date d = new Date();
+        Budget b = new Budget("Budget Généré", d, 30); 
+        //b.setCategories();
+        ArrayList<Transaction> transactions = new ArrayList<>(DBConnection.getMontDate_transac());
+        //tester si il y a suffisamment de transaction
+        if(!transactions.isEmpty()){
+            double sommeTransac = transactions.stream()
+                .limit(30)
+                .mapToDouble(t -> {
+                    if (t instanceof Depense) 
+                    return Math.abs(t.getMontantTransac());
+                    return 0; })
+                .sum();
+            b.setMontantTot(sommeTransac);
+            DBConnection.addBudget(b);
+            System.out.println("Généré avec succés ID="+b.getIdBudget());
+            //ajout des categories
+            for(Categorie cat: DBConnection.listCategories){
+                b.ajouterCat(cat);
+                DBConnection.addCatBudg(b);
+                System.out.println("Categorie ajoute= "+cat.getLibCat());
+            }
+            Alert alertSucc = new Alert(Alert.AlertType.CONFIRMATION);
+                    alertSucc.setTitle("Message");
+                    alertSucc.setHeaderText("Succés!");
+                    alertSucc.setContentText("Budget généré avec succés");
+                    alertSucc.show();
+            }else{
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Message");
+                alert.setHeaderText("Erreur !");
+                alert.setContentText("Pas assez de transactions !");
+                alert.show();
+            }
+        }
     
      @FXML
     void consulterBudg(ActionEvent event){

@@ -203,7 +203,7 @@ public class DBConnection {
 //         ps.executeUpdate();
 //         //same pour depense ps et update
 //     }
-         
+    
      public static void  addBudget(Budget b) throws SQLException{
          SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy :: HH:mm:ss");
          con=DBConnection.getConnexion();

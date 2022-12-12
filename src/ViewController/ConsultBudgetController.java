@@ -82,7 +82,7 @@ public class ConsultBudgetController implements Initializable {
             System.out.println(newVal.toString());
             
             //nameBudget.setText(newVal.getNomBudget());
-           
+            
             if (newVal.getDuree() == 7 ){
                 dureeBudget.setText("1 semaine");
             } 

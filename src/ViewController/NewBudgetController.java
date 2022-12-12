@@ -144,14 +144,15 @@ public class NewBudgetController implements Initializable {
         b.ajouterCat(choixCat.getValue());
         DBConnection.addCatBudg(b);
         System.out.println("Categorie ajoutée avec succès!");
-        DBConnection.user.ajouterBudget(b);
+        //DBConnection.user.ajouterBudget(b);
     }
     
     private void ajouterBudget() throws SQLException{
         Date d = new Date();
         b = new Budget(txtNameBudget.getText(), d, choixDuree.getValue());      
         DBConnection.addBudget(b);
-        System.out.println("ajout avec succés");
+        
+        System.out.println("ajout avec succés ID="+b.getIdBudget());
         vBoxHaut.setDisable(true);
         vBoxBas.setDisable(false);
         

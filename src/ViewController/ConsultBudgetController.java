@@ -98,7 +98,7 @@ public class ConsultBudgetController implements Initializable {
                  if(depassement == -1){
                      depassText.setText("Budget obsolete!");
                      progBar.setProgress(0);
-                 }else if(depassement>=newVal.getMontantTot() && depassement>0){
+                 }else if(depassement>newVal.getMontantTot() && depassement>0){
                      depassText.setText("Oui");
                      progBar.setProgress(1);
                  }else{

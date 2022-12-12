@@ -138,6 +138,7 @@ public class Budget {
                     
                 }
             }
+            System.out.println("Somme transacs:  "+sommeTransactions);
             return sommeTransactions;
         }
 

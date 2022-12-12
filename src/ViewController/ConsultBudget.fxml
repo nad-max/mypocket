@@ -32,7 +32,7 @@
       </HBox>
       <HBox alignment="CENTER_LEFT" spacing="5.0">
          <children>
-            <Label text="Montant :" />
+            <Label text="Montant seuil :" />
             <Label fx:id="montantBudget">
                <font>
                   <Font name="System Bold" size="12.0" />

@@ -5,6 +5,7 @@
 package ViewController;
 
 import BD.DBConnection;
+import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,6 +17,8 @@ import java.util.Date;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -46,6 +49,8 @@ public class SignUpViewController {
     private TextField txtmail;
    @FXML
     private TextField txtNom;
+    @FXML
+    private JFXButton btnBack;
    
    @FXML 
    void ajouterUser(ActionEvent event) throws SQLException, IOException{
@@ -92,9 +97,19 @@ public class SignUpViewController {
        }
            
            
-       
-       
    }
+   
+   
+   
+   @FXML
+    void Retour(ActionEvent event) {
+         try {
+            new SignUpViewController.SignIn().start((Stage)btnBack.getScene().getWindow());
+        } catch (IOException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
 
     private static class LoginPage extends Application {
 
@@ -112,7 +127,22 @@ public class SignUpViewController {
         
         
     }
-   
+   private static class SignIn extends Application {
+
+        public SignIn() {
+        }
+
+        
+
+        @Override
+        public void start(Stage primaryStage) throws IOException {
+           Parent root = FXMLLoader.load(getClass().getResource("Login.fxml"));
+           Scene scene = new Scene(root);
+            primaryStage.setTitle("Login");
+            primaryStage.setScene(scene);
+            primaryStage.show();
+        }
+    }
    
    
      

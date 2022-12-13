@@ -87,10 +87,10 @@ public class HomeViewController implements Initializable {
     private VBox RhBox;
      @FXML
     private Pane pane;
-     @FXML
-    private PieChart pieChart;
+//     @FXML
+//    private PieChart pieChart;
  
-     
+             
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         //Charger la liste des categories et les budgets
@@ -142,8 +142,7 @@ public class HomeViewController implements Initializable {
             Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
         }
          ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
-        
-         
+          
          //adding data 
          for (int j = 0; j < DBConnection.categoryNames.size(); j++) {
 	   pieChartData.add(new PieChart.Data(DBConnection.categoryNames.get(j), DBConnection.categoryCount.get(j)));
@@ -189,6 +188,50 @@ public class HomeViewController implements Initializable {
             transacTab.setItems(list); 
             //set solde
             txtSolde.setText(""+DBConnection.user.getSolde()+" TND");
+             pane.getChildren().clear();
+            try {
+            //pie chart
+            DBConnection.getCategoriesDetails();
+           
+        } catch (SQLException ex) {
+            Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+             for (int j = 0; j < DBConnection.categoryNames.size(); j++) {
+	   pieChartData.add(new PieChart.Data(DBConnection.categoryNames.get(j), DBConnection.categoryCount.get(j)));
+	  pieChartData.get(j).toString();
+           System.out.println( pieChartData.get(j).toString());}
+          PieChart pieChart = new PieChart(pieChartData);
+          pieChart.setTitle("Dépenses selon catégories");
+          
+          pieChart.setPrefHeight(200);
+
+          
+          pieChart.setPrefWidth(200);
+
+	  pieChart.setPrefSize(200, 200);
+	  pieChart.setMinSize(420, 300);
+	  pieChart.setMaxSize(420, 300);
+
+          // setting the direction to arrange the data
+           pieChart.setClockwise(true);
+
+          // Setting the length of the label line
+          pieChart.setLabelLineLength(20);
+
+	 //Setting the labels of the pie chart visible
+	pieChart.setLabelsVisible(true);
+
+	// Setting the start angle of the pie chart
+	pieChart.setStartAngle(180);
+	pieChart.setAnimated(true);
+	pieChart.animatedProperty();
+      
+        pane.getChildren().add(pieChart);
+       
+            
+        System.out.println("rafraichir  pie chart ");
+            
             
             
             //Raffraichir le combobox des transac

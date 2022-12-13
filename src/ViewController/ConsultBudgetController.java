@@ -96,7 +96,7 @@ public class ConsultBudgetController implements Initializable {
              try {
                  double depassement = newVal.testDepassement(new ArrayList<Transaction>(DBConnection.getMontDate_transac()));
                  if(depassement == -1){
-                     depassText.setText("Budget obsolete!");
+                     depassText.setText("Budget expiré!");
                      progBar.setProgress(0);
                  }else if(depassement>newVal.getMontantTot() && depassement>0){
                      depassText.setText("Oui");

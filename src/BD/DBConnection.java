@@ -268,8 +268,26 @@ public class DBConnection {
             SousCategorie livre = new SousCategorie(24,"Livre, audio, abonnement");
             ArrayList<SousCategorie> scatLoisir= new ArrayList<SousCategorie>(Arrays.asList(sport,passion,bienetre,livre));
             loisir.setSousCat(scatLoisir);
-        
-        listCategories = new ArrayList<Categorie>(Arrays.asList(nourritures,transport,loisir));
+        Categorie logement = new Categorie(4,"Logement");
+            //Sous Categories de logement
+            SousCategorie reparation = new SousCategorie(40,"Réparation");
+            SousCategorie loyer = new SousCategorie(41,"Loyer");
+            SousCategorie energie = new SousCategorie(42,"Energie & service publique");
+            
+            ArrayList<SousCategorie> scatLogement= new ArrayList<SousCategorie>(Arrays.asList(reparation,loyer,energie));
+            logement.setSousCat(scatLogement);
+            
+            Categorie achat = new Categorie(5,"Achats");
+            //Sous Categories de logement
+            SousCategorie sante = new SousCategorie(50,"Santé");
+            SousCategorie vetements = new SousCategorie(51,"Vetements & chaussures");
+            SousCategorie electro = new SousCategorie(52,"Electoniques & accessoires");
+            
+            ArrayList<SousCategorie> scatAchat= new ArrayList<SousCategorie>(Arrays.asList(sante,vetements,electro));
+            achat.setSousCat(scatAchat);
+            
+            
+        listCategories = new ArrayList<Categorie>(Arrays.asList(nourritures,transport,loisir,logement,achat));
     }
     
      public static ArrayList<Budget> chargerlistBudgets() throws SQLException, ParseException{ 

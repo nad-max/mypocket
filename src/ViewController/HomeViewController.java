@@ -112,6 +112,7 @@ public class HomeViewController implements Initializable {
             montantCol.setCellValueFactory(new PropertyValueFactory<Transaction,Double>("montantTransac"));
             dateCol.setCellValueFactory(new PropertyValueFactory<Transaction,Date>("dateTransac"));
             //colType.setCellValueFactory(new PropertyValueFactory<Transaction,String>("type"));
+            //list.sort();
             transacTab.setItems(list);
             
                     
@@ -149,7 +150,7 @@ public class HomeViewController implements Initializable {
 	   pieChartData.add(new PieChart.Data(DBConnection.categoryNames.get(j), DBConnection.categoryCount.get(j)));
 	  pieChartData.get(j).toString();
            System.out.println( pieChartData.get(j).toString());}
-          PieChart pieChart = new PieChart(pieChartData);
+          pieChart = new PieChart(pieChartData);
           pieChart.setTitle("Dépenses selon catégories");
           
           pieChart.setPrefHeight(200);
@@ -190,9 +191,18 @@ public class HomeViewController implements Initializable {
             //set solde
             txtSolde.setText(""+DBConnection.user.getSolde()+" TND");
             
+            //Raffraichire pie chart
+            DBConnection.getCategoriesDetails();
+            ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+            for (int j = 0; j < DBConnection.categoryNames.size(); j++) {
+            pieChartData.add(new PieChart.Data(DBConnection.categoryNames.get(j), DBConnection.categoryCount.get(j)));
+            pieChartData.get(j).toString();
+            //update l'actuel
+            pieChart.getData().set(j, pieChartData.get(j));
+            System.out.println( pieChartData.get(j).toString());
+            }
+          
             
-            //Raffraichir le combobox des transac
-            //choixTransac.setValue("Ajouter une transaction");
         } catch (SQLException ex) {
             Logger.getLogger(HomeViewController.class.getName()).log(Level.SEVERE, null, ex);
         }

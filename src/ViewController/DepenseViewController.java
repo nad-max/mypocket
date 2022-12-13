@@ -141,8 +141,15 @@ public class DepenseViewController implements Initializable {
                  //pour tester si c'est CETTE transaction qui cause le depassement, il faut s'assurer
                  //que la somme des ancienne transactions (avant cette depense) est inferieur au montant totalbudget
                  //autrement dit: que c'est le premier depassement
-                 double montantAncienneTransacs = montantReel + dep.getMontantTransac();
-                 System.out.println("montantAncienneTransacs: "+montantAncienneTransacs+"; montantReel: "+montantReel);
+                 double montantAncienneTransacs;
+                 if(e.getCategories().stream().anyMatch(cat-> cat.getLibCat().equals(dep.getCategorie().getLibCat())) ){
+                     montantAncienneTransacs = montantReel + dep.getMontantTransac();
+                     if(montantAncienneTransacs<0) montantAncienneTransacs=0;
+                 }else{
+                      montantAncienneTransacs = montantReel;
+                 }
+                 
+                 System.out.println("nomBudget: "+e.getNomBudget()+"; Total: "+e.getMontantTot()+"montantAncienneTransacs: "+montantAncienneTransacs+"; montantReel: "+montantReel);
                  return (montantReel>e.getMontantTot() && montantAncienneTransacs<=e.getMontantTot());
                          }).collect(Collectors.toList());
              System.out.println("Nbr budgets depassés= "+budgetsDepasse.size());
